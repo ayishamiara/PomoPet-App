@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.mobdeve.chuachingdytocstamaria.mco.pomopet"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.mobdeve.chuachingdytocstamaria.mco.pomopet"
