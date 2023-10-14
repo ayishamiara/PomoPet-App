@@ -8,4 +8,7 @@ class TodoViewHolder(val binding: ItemTodoBinding): ViewHolder(binding.root) {
     fun bindData(todo:ToDo){
         binding.todoItemET.setHint(todo.label)
     }
+    fun clearData(){
+        binding.todoItemET.setText("")
+    }
 }
