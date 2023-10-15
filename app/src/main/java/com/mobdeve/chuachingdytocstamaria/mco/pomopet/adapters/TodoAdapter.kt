@@ -4,7 +4,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.databinding.ItemTodoBinding
@@ -51,10 +54,9 @@ class TodoAdapter(private val data: ArrayList<ToDo>): Adapter<TodoViewHolder>() 
                 data.remove(data[position])
                 notifyItemRemoved(position)
                 todoViewHolder.clearData()
-
             }
-
         }
+
         return todoViewHolder
     }
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
