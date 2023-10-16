@@ -18,8 +18,8 @@ class MainActivity : AppCompatActivity() {
 
     private var isRunning = false
 
-    private var initialTimeInMins = 1
-    var timeInMs = 0L
+    private var initialTimeInMins = 20
+    var timeInMs = initialTimeInMins * 60000L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity() {
         this.todoListRV.layoutManager = LinearLayoutManager(this,
             LinearLayoutManager.VERTICAL,
             false)
+
+        updateText()
 
         binding.startBtn.setOnClickListener{
             val time = initialTimeInMins * 60000L
