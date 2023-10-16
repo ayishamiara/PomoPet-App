@@ -7,13 +7,12 @@
     android:background="#FFD2D2"
     android:orientation="vertical">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+    <ImageButton
+        android:id="@+id/imageButton4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="33dp"
-        android:clickable="true"
-        android:src="@android:drawable/ic_input_add"
+        android:src="@android:drawable/btn_star"
         app:layout_constraintBottom_toBottomOf="@+id/top"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/top" />
@@ -63,13 +62,11 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomPomoPet"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="133dp"
         android:background="#FFFFFF"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/top">
@@ -79,7 +76,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            tools:layout_editor_absoluteY="39dp">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/timerPreferences"
@@ -87,6 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
                 android:fontFamily="@font/karla"
                 android:text="Timer Preferences"
                 android:textColor="#333333"
@@ -97,13 +98,14 @@
                 android:id="@+id/timerPreferencesSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/pomodoro"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="25dp"
+                    android:layout_marginStart="15dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
@@ -111,10 +113,29 @@
                         android:id="@+id/textView13"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
                         android:fontFamily="@font/karla"
                         android:text="Pomodoro"
+                        android:textAlignment="center"
                         android:textColor="#333333"
                         android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/editTextNumber5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="#D3D3D3"
+                        android:ems="4"
+                        android:inputType="number"
+                        android:maxWidth="65dp"
+                        android:maxHeight="19dp"
+                        android:minWidth="65dp"
+                        android:minHeight="19dp"
+                        android:shadowRadius="10"
+                        android:textAlignment="center"
+                        android:textSize="12sp"
+                        tools:text="25" />
 
                 </LinearLayout>
 
@@ -129,10 +150,28 @@
                         android:id="@+id/textView14"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
                         android:fontFamily="@font/karla"
                         android:text="Short Break"
+                        android:textAlignment="center"
                         android:textColor="#333333"
                         android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/editTextNumber6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="#D3D3D3"
+                        android:ems="4"
+                        android:inputType="number"
+                        android:maxWidth="65dp"
+                        android:maxHeight="19dp"
+                        android:minWidth="65dp"
+                        android:minHeight="19dp"
+                        android:textAlignment="center"
+                        android:textSize="12sp"
+                        tools:text="5" />
 
                 </LinearLayout>
 
@@ -140,6 +179,7 @@
                     android:id="@+id/longBreak"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginEnd="15dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
@@ -147,13 +187,42 @@
                         android:id="@+id/textView15"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
                         android:fontFamily="@font/karla"
                         android:text="Long Break"
+                        android:textAlignment="center"
                         android:textColor="#333333"
                         android:textSize="14sp" />
 
+                    <EditText
+                        android:id="@+id/editTextNumber7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:background="#D3D3D3D3"
+                        android:ems="4"
+                        android:inputType="number"
+                        android:maxWidth="65dp"
+                        android:maxHeight="19dp"
+                        android:minWidth="65dp"
+                        android:minHeight="19dp"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textSize="12sp"
+                        tools:text="15" />
+
                 </LinearLayout>
+
             </LinearLayout>
+
+            <View
+                android:id="@+id/timerPreferencesLine"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="#D3D3D3D3" />
 
             <TextView
                 android:id="@+id/gyroscope"
@@ -169,7 +238,8 @@
                 android:id="@+id/gyroscopeSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp">
 
                 <LinearLayout
                     android:id="@+id/enableShakingPauseSetting"
@@ -197,6 +267,7 @@
                         android:layout_marginStart="49dp"
                         android:fontFamily="@font/karla"
                         android:text="Shake left and right to pause timer"
+                        android:textColor="#333333"
                         android:textSize="12dp" />
                 </LinearLayout>
 
@@ -224,16 +295,27 @@
                         android:layout_marginStart="49dp"
                         android:fontFamily="@font/karla"
                         android:text="Shake up and down to reset timer"
+                        android:textColor="#333333"
                         android:textSize="12sp" />
 
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/gyroscopeLine"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="#D3D3D3D3" />
 
             <TextView
                 android:id="@+id/themes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
+                android:layout_marginBottom="10dp"
                 android:text="Themes"
                 android:textColor="#333333"
                 android:textSize="24sp"
@@ -243,6 +325,7 @@
                 android:id="@+id/themesSettings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:orientation="horizontal">
 
                 <ImageButton
@@ -252,7 +335,16 @@
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="37dp"
                     android:layout_weight="1"
-                    android:src="@android:drawable/btn_star" />
+                    android:adjustViewBounds="false"
+                    android:background="#D3D3D3"
+                    android:minWidth="65dp"
+                    android:minHeight="50dp"
+                    android:paddingStart="30dp"
+                    android:paddingTop="10dp"
+                    android:paddingEnd="30dp"
+                    android:paddingBottom="10dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/bunny_icon" />
 
                 <ImageButton
                     android:id="@+id/catButton"
@@ -260,7 +352,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="37dp"
                     android:layout_weight="1"
-                    android:src="@android:drawable/btn_star" />
+                    android:adjustViewBounds="false"
+                    android:background="#D3D3D3"
+                    android:cropToPadding="false"
+                    android:minWidth="65dp"
+                    android:minHeight="50dp"
+                    android:paddingStart="30dp"
+                    android:paddingTop="15dp"
+                    android:paddingEnd="30dp"
+                    android:paddingBottom="15dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/cat_icon" />
 
                 <ImageButton
                     android:id="@+id/bearButton"
@@ -268,7 +370,17 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="25dp"
                     android:layout_weight="1"
-                    android:src="@android:drawable/btn_star" />
+                    android:adjustViewBounds="false"
+                    android:background="#D3D3D3"
+                    android:cropToPadding="false"
+                    android:minWidth="65dp"
+                    android:minHeight="50dp"
+                    android:paddingStart="30dp"
+                    android:paddingTop="15dp"
+                    android:paddingEnd="30dp"
+                    android:paddingBottom="15dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/bear_icon" />
             </LinearLayout>
 
         </LinearLayout>
