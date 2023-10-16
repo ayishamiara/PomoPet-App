@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     private var isRunning = false
 
-    private var initialTimeInMins = 25
+    private var initialTimeInMins = 1
     var timeInMs = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +42,12 @@ class MainActivity : AppCompatActivity() {
                 startTimer(timeInMs)
             } else{
                 pauseTimer()
+            }
+        }
 
+        binding.stopBtn.setOnClickListener{
+            if(!isRunning){
+                stopTimer()
             }
         }
 
@@ -53,6 +58,12 @@ class MainActivity : AppCompatActivity() {
         countdownTimer.cancel()
         isRunning = false
 
+    }
+    private fun stopTimer(){
+        countdownTimer.cancel()
+        timeInMs = initialTimeInMins * 60000L
+        updateText()
+        isRunning = false
     }
 
     private fun startTimer(time: Long){
@@ -79,7 +90,11 @@ class MainActivity : AppCompatActivity() {
         val minute = (timeInMs / 1000) / 60
         val seconds = (timeInMs / 1000) % 60
 
-        binding.timerTV.text = "$minute:$seconds"
+        binding.timerTV.text = "${padTime(minute)}:${padTime(seconds)}"
+    }
+
+    private fun padTime(unit: Long): String{
+        return unit.toString().padStart(2, '0')
     }
 
 }
