@@ -2,32 +2,34 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settingsCL"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFD2D2"
     android:orientation="vertical">
 
     <ImageButton
-        android:id="@+id/imageButton4"
+        android:id="@+id/settingsBackBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="33dp"
         android:src="@android:drawable/btn_star"
-        app:layout_constraintBottom_toBottomOf="@+id/top"
+        app:layout_constraintBottom_toBottomOf="@+id/settingsTitleCL"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/top" />
+        app:layout_constraintTop_toTopOf="@+id/settingsTitleCL" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/top"
+        android:id="@+id/settingsTitleCL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="38dp"
-        app:layout_constraintBottom_toTopOf="@id/bottomPomoPet"
+        app:layout_constraintBottom_toTopOf="@id/settingsPreferencesCL"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/settingsTitleVerticalLL"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:orientation="vertical"
@@ -36,7 +38,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/settingsAppTitleTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/karla"
@@ -47,7 +49,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/settingsTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/karla"
@@ -60,7 +62,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/bottomPomoPet"
+        android:id="@+id/settingsPreferencesCL"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -69,7 +71,7 @@
         android:background="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top">
+        app:layout_constraintTop_toBottomOf="@id/settingsTitleCL">
 
         <LinearLayout
             android:id="@+id/settingsBox"
@@ -82,7 +84,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/timerPreferences"
+                android:id="@+id/timerPreferencesTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -95,14 +97,14 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:id="@+id/timerPreferencesSettings"
+                android:id="@+id/timerPreferencesSettingsHorizontalLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:id="@+id/pomodoro"
+                    android:id="@+id/pomodoroVerticalLL"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginStart="15dp"
@@ -110,7 +112,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView13"
+                        android:id="@+id/pomodoroTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp"
@@ -121,7 +123,7 @@
                         android:textSize="14sp" />
 
                     <EditText
-                        android:id="@+id/editTextNumber5"
+                        android:id="@+id/pomodoroETNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -140,14 +142,14 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/shortBreak"
+                    android:id="@+id/shortBreakVerticalLL"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView14"
+                        android:id="@+id/shortBreakTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp"
@@ -158,7 +160,7 @@
                         android:textSize="14sp" />
 
                     <EditText
-                        android:id="@+id/editTextNumber6"
+                        android:id="@+id/shortBreakETNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -176,7 +178,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/longBreak"
+                    android:id="@+id/longBreakVerticalLL"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="15dp"
@@ -184,7 +186,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView15"
+                        android:id="@+id/longBreakTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="3dp"
@@ -195,7 +197,7 @@
                         android:textSize="14sp" />
 
                     <EditText
-                        android:id="@+id/editTextNumber7"
+                        android:id="@+id/longBreakETNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -225,7 +227,7 @@
                 android:background="#D3D3D3D3" />
 
             <TextView
-                android:id="@+id/gyroscope"
+                android:id="@+id/gyroscopeTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -235,25 +237,25 @@
                 android:textStyle="bold" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/gyroscopeSettings"
+                android:id="@+id/gyroscopeSettingsCL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp">
 
                 <LinearLayout
-                    android:id="@+id/enableShakingPauseSetting"
+                    android:id="@+id/shakingPauseVerticalLL"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
                     android:orientation="vertical"
-                    app:layout_constraintBottom_toTopOf="@id/enableShakingResetSetting"
+                    app:layout_constraintBottom_toTopOf="@id/shakingResetVerticalLL"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <RadioButton
-                        android:id="@+id/radioButton"
+                        android:id="@+id/pauseRadioBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
@@ -261,7 +263,7 @@
                         android:text="Enable shaking to pause timer" />
 
                     <TextView
-                        android:id="@+id/textView17"
+                        android:id="@+id/leftRightTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="49dp"
@@ -272,7 +274,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/enableShakingResetSetting"
+                    android:id="@+id/shakingResetVerticalLL"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
@@ -281,7 +283,7 @@
                     app:layout_constraintStart_toStartOf="parent">
 
                     <RadioButton
-                        android:id="@+id/radioButton2"
+                        android:id="@+id/resetRadioBtn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
@@ -289,7 +291,7 @@
                         android:text="Enable shaking to reset timer" />
 
                     <TextView
-                        android:id="@+id/textView10"
+                        android:id="@+id/upDownTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="49dp"
@@ -311,7 +313,7 @@
                 android:background="#D3D3D3D3" />
 
             <TextView
-                android:id="@+id/themes"
+                android:id="@+id/themesTV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -322,14 +324,14 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:id="@+id/themesSettings"
+                android:id="@+id/themesSettingsHorizontalLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/bunnyButton"
+                    android:id="@+id/bunnyBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="25dp"
@@ -347,7 +349,7 @@
                     android:src="@drawable/bunny_icon" />
 
                 <ImageButton
-                    android:id="@+id/catButton"
+                    android:id="@+id/catBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="37dp"
@@ -365,7 +367,7 @@
                     android:src="@drawable/cat_icon" />
 
                 <ImageButton
-                    android:id="@+id/bearButton"
+                    android:id="@+id/bearBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="25dp"
