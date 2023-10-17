@@ -1,5 +1,6 @@
 package com.mobdeve.chuachingdytocstamaria.mco.pomopet
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -52,6 +53,20 @@ class MainActivity : AppCompatActivity() {
                 stopTimer()
             }
         }
+
+
+        binding.settingsBtn.setOnClickListener{
+            val intent = Intent(binding.root.context, SettingsActivity::class.java)
+
+            startActivity(intent)
+        }
+
+        binding.streakBtn.setOnClickListener{
+            val intent = Intent(binding.root.context, StreakTrackerActivity::class.java)
+
+            startActivity(intent)
+        }
+
 
     }
 
