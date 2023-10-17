@@ -21,6 +21,11 @@ class StreakTrackerActivity : AppCompatActivity() {
 
         val data = generateRandomBooleanList(365)
         createRandomStreaks(data)
+
+        binding.streakBackBtn.setOnClickListener{
+            finish()
+        }
+
     }
 
     private fun createRandomStreaks(data: ArrayList<Boolean>){

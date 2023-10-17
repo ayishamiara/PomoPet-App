@@ -51,6 +51,8 @@ class MainActivity : AppCompatActivity() {
         binding.stopBtn.setOnClickListener{
             if(!isRunning){
                 stopTimer()
+                binding.startBtn.visibility = View.VISIBLE
+                binding.timerControlGroupLL.visibility = View.INVISIBLE
             }
         }
 
