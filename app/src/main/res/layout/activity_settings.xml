@@ -14,10 +14,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="33dp"
+        android:layout_marginBottom="25dp"
+        android:background="#00FFFFFF"
         android:src="@android:drawable/btn_star"
         app:layout_constraintBottom_toBottomOf="@+id/settingsTitleCL"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/settingsTitleCL" />
+        app:layout_constraintTop_toTopOf="@+id/settingsTitleCL"
+        tools:src="@drawable/back_icon" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/settingsTitleCL"
