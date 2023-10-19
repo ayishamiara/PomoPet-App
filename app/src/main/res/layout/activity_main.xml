@@ -90,6 +90,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@drawable/app_button"
+        android:drawableStart="@drawable/play_icon"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:text="@string/start_btn_label"
         android:textAllCaps="false"
         android:textColor="@color/primary_text_color"
@@ -113,17 +116,28 @@
             android:id="@+id/pauseResumeBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
             android:layout_weight="0.25"
+            android:background="@drawable/app_button"
             android:backgroundTint="@color/white"
-            android:text="Pause" />
+            android:drawableStart="@drawable/pause_icon"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="Pause"
+            android:textAllCaps="false" />
 
         <Button
             android:id="@+id/stopBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
+            android:background="@drawable/app_button"
             android:backgroundTint="@color/white"
-            android:text="Stop" />
+            android:drawableStart="@drawable/stop_icon"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="Stop"
+            android:textAllCaps="false" />
     </LinearLayout>
 
     <TextView
