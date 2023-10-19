@@ -72,7 +72,8 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="20dp"
-        android:background="#FFFFFF"
+        android:backgroundTint="#FFFFFF"
+        android:background="@drawable/app_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/settingsTitleCL">
@@ -328,7 +329,7 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:id="@+id/themesSettingsHorizontalLL"
+                android:id="@+id/themesSettingsHL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -342,7 +343,8 @@
                     android:layout_marginEnd="37dp"
                     android:layout_weight="1"
                     android:adjustViewBounds="false"
-                    android:background="#D3D3D3"
+                    android:backgroundTint="#D3D3D3"
+                    android:background="@drawable/app_button"
                     android:maxWidth="65dp"
                     android:minWidth="65dp"
                     android:minHeight="50dp"
@@ -360,7 +362,8 @@
                     android:layout_marginEnd="37dp"
                     android:layout_weight="1"
                     android:adjustViewBounds="false"
-                    android:background="#D3D3D3"
+                    android:backgroundTint="#D3D3D3"
+                    android:background="@drawable/app_button"
                     android:cropToPadding="false"
                     android:maxWidth="65dp"
                     android:minWidth="65dp"
@@ -379,7 +382,8 @@
                     android:layout_marginEnd="25dp"
                     android:layout_weight="1"
                     android:adjustViewBounds="false"
-                    android:background="#D3D3D3"
+                    android:backgroundTint="#D3D3D3"
+                    android:background="@drawable/app_button"
                     android:cropToPadding="false"
                     android:maxWidth="65dp"
                     android:minWidth="65dp"
@@ -390,6 +394,53 @@
                     android:paddingBottom="15dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/bear_icon" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/settingsHL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/defaultBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/karla"
+                    android:maxWidth="100dp"
+                    android:maxHeight="33dp"
+                    android:text="Default"
+                    android:backgroundTint="#FFD2D2"
+                    android:background="@drawable/app_button"
+                    android:textAllCaps="false"
+                    android:textColor="#333333"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/saveBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="50dp"
+                    android:layout_weight="1"
+                    android:background="#FFD2D2"
+                    android:fontFamily="@font/karla"
+                    android:maxWidth="100dp"
+                    android:maxHeight="33dp"
+                    android:text="Save"
+                    android:backgroundTint="#FFD2D2"
+                    android:background="@drawable/app_button"
+                    android:textAllCaps="false"
+                    android:textColor="#333333"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
         </LinearLayout>
