@@ -119,7 +119,7 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/productiveIV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -127,7 +127,7 @@
                     tools:srcCompat="@drawable/paw_streak" />
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/productiveTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -147,7 +147,7 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/missedIV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -155,7 +155,7 @@
                     tools:srcCompat="@drawable/paw_streak_gray" />
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/missedTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -175,7 +175,7 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:id="@+id/imageView3"
+                    android:id="@+id/upcomingIV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -183,7 +183,7 @@
                     tools:srcCompat="@drawable/paw_streak_light_gray" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/upcomingTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
