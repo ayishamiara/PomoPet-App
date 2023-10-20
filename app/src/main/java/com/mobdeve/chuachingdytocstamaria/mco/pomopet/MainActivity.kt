@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         binding.startBtn.setOnClickListener{
             val time = initialTimeInMins * 60000L
             startTimer(time)
+            toggleViewElements(View.INVISIBLE)
         }
 
         binding.pauseResumeBtn.setOnClickListener{
@@ -49,11 +50,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.stopBtn.setOnClickListener{
-            if(!isRunning){
-                stopTimer()
-                binding.startBtn.visibility = View.VISIBLE
-                binding.timerControlGroupLL.visibility = View.INVISIBLE
-            }
+            stopTimer()
+            toggleViewElements(View.VISIBLE)
+            binding.startBtn.visibility = View.VISIBLE
+            binding.timerControlGroupLL.visibility = View.INVISIBLE
         }
 
 
@@ -70,6 +70,12 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun toggleViewElements(visibility: Int){
+        binding.appTitleTV.visibility = visibility
+        binding.settingsBtn.visibility = visibility
+        binding.streakBtn.visibility = visibility
     }
 
     private fun pauseTimer(){
