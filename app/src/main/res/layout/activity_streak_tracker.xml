@@ -122,7 +122,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    tools:srcCompat="@drawable/paw_streak" />
+                    android:src="@drawable/paw_streak" />
 
                 <TextView
                     android:id="@+id/productiveTV"
@@ -149,7 +149,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    tools:srcCompat="@drawable/paw_streak_gray" />
+                    android:src="@drawable/paw_streak_gray" />
 
                 <TextView
                     android:id="@+id/missedTV"
@@ -176,7 +176,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    tools:srcCompat="@drawable/paw_streak_light_gray" />
+                    android:src="@drawable/paw_streak_light_gray" />
 
                 <TextView
                     android:id="@+id/upcomingTV"
