@@ -15,11 +15,10 @@
         android:layout_marginStart="33dp"
         android:layout_marginBottom="25dp"
         android:background="#00FFFFFF"
-        android:src="@android:drawable/btn_star"
+        android:src="@drawable/back_icon"
         app:layout_constraintBottom_toBottomOf="@+id/streakTitleCL"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/streakTitleCL"
-        tools:src="@drawable/back_icon" />
+        app:layout_constraintTop_toTopOf="@+id/streakTitleCL" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/streakTitleCL"
