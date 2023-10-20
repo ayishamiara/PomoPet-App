@@ -21,4 +21,9 @@
     <color name="bear_background_color">#E0CCA3</color>
     <color name="bear_brown">#A0856F</color>
     <color name="honey_brown">#D2B48C</color>
+
+    <!-- BUTTON STATES -->
+    <color name="enabled_button">#FFD2D2</color>
+    <color name="disabled_button">#E9E9E9</color>
+
 </resources>
