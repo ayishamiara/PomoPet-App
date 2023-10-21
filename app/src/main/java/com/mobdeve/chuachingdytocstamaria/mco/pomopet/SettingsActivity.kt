@@ -76,6 +76,9 @@ class SettingsActivity : AppCompatActivity() {
         saveBtn.setOnClickListener{
             this.isSaved = true
             Toast.makeText(this, "Settings saved", Toast.LENGTH_LONG).show()
+            pomodoroTime = pomodoroETNumber.text.toString().toInt()
+            shortBreakTime = shortBreakETNumber.text.toString().toInt()
+            longBreakTime = longBreakETNumber.text.toString().toInt()
             saveBtn.isEnabled = false
             saveBtn.isClickable = false
         }
