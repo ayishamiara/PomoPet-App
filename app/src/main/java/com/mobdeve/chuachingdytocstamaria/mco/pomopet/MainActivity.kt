@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.adapters.TodoAdapter
@@ -107,12 +108,14 @@ class MainActivity : AppCompatActivity() {
         binding.streakBtn.visibility = visibility
     }
 
-    private fun pauseTimer(){
+    private fun pauseTimer() {
+        val playIconDrawable = ContextCompat.getDrawable(this, R.drawable.play_icon)
         binding.pauseResumeBtn.text = "Resume"
+        binding.pauseResumeBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(playIconDrawable, null, null, null)
         countdownTimer.cancel()
         isRunning = false
-
     }
+
     private fun stopTimer(){
         countdownTimer.cancel()
         timeInMs = initialTimeInMins * 60000L
@@ -139,7 +142,10 @@ class MainActivity : AppCompatActivity() {
         countdownTimer.start()
         binding.startBtn.visibility = View.INVISIBLE
         binding.timerControlGroupLL.visibility = View.VISIBLE
+        val pauseIconDrawable = ContextCompat.getDrawable(this, R.drawable.pause_icon)
         binding.pauseResumeBtn.text = "Pause"
+        binding.pauseResumeBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(pauseIconDrawable, null, null, null)
+
 
     }
 
