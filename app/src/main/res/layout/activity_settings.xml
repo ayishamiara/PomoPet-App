@@ -262,15 +262,26 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <CheckBox
-                        android:id="@+id/pauseCheckBtn"
+                    <LinearLayout
+                        android:id="@+id/pauseCheckBtnLinearLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Enable shaking to pause timer" />
-                        <!--android:button="@drawable/app_checkbox" -->
-                        <!--android:text="      Enable shaking to pause timer" -->
-
+                        android:gravity="center">
+                        <CheckBox
+                            android:id="@+id/pauseCheckBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.65"
+                            android:scaleY="0.65"
+                            />
+                        <TextView
+                            android:id="@+id/pauseCheckBtnText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Enable shaking to pause timer"
+                            android:textColor="@color/primary_text_color"
+                            />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/leftRightTV"
@@ -279,6 +290,7 @@
                         android:layout_marginStart="35dp"
                         android:fontFamily="@font/karla"
                         android:text="Shake left and right to pause timer"
+                        android:textStyle="italic"
                         android:textColor="#333333"
                         android:textSize="12dp" />
                 </LinearLayout>
@@ -292,16 +304,26 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
-
-                    <CheckBox
-                        android:id="@+id/resetCheckBtn"
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:id="@+id/resetCheckBtnLinearLayout"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Enable shaking to reset timer" />
-                        <!--android:button="@drawable/app_checkbox" -->
-                        <!--android:text="      Enable shaking to reset timer" -->
-
+                        android:gravity="center">
+                        <CheckBox
+                            android:id="@+id/resetCheckBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleX="0.65"
+                            android:scaleY="0.65"
+                            />
+                        <TextView
+                            android:id="@+id/resetCheckBtnText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Enable shaking to reset timer"
+                            android:textColor="@color/primary_text_color"
+                            />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/upDownTV"
@@ -309,6 +331,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="35dp"
                         android:fontFamily="@font/karla"
+                        android:textStyle="italic"
                         android:text="Shake up and down to reset timer"
                         android:textColor="#333333"
                         android:textSize="12sp" />
