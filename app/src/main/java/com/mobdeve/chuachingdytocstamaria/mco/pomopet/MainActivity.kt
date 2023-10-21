@@ -123,7 +123,11 @@ class MainActivity : AppCompatActivity() {
     private fun startTimer(time: Long){
         countdownTimer = object : CountDownTimer(time, 1000){
             override fun onFinish() {
-                TODO("Handle changing between breaks and increasing cycles")
+                stopTimer()
+                toggleViewElements(View.VISIBLE)
+                binding.startBtn.visibility = View.VISIBLE
+                binding.timerControlGroupLL.visibility = View.INVISIBLE
+
             }
 
             override fun onTick(millisUntilFinished: Long) {
@@ -131,12 +135,11 @@ class MainActivity : AppCompatActivity() {
                 updateText()
             }
         }
-
+        isRunning = true
+        countdownTimer.start()
         binding.startBtn.visibility = View.INVISIBLE
         binding.timerControlGroupLL.visibility = View.VISIBLE
         binding.pauseResumeBtn.text = "Pause"
-        countdownTimer.start()
-        isRunning = true
 
     }
 
