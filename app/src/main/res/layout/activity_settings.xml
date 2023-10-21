@@ -255,6 +255,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginStart="25dp"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toTopOf="@id/shakingResetVerticalLL"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -265,15 +266,17 @@
                         android:id="@+id/pauseCheckBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
                         android:layout_weight="1"
                         android:text="Enable shaking to pause timer" />
+                        <!--android:button="@drawable/app_checkbox" -->
+                        <!--android:text="      Enable shaking to pause timer" -->
+
 
                     <TextView
                         android:id="@+id/leftRightTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="49dp"
+                        android:layout_marginStart="35dp"
                         android:fontFamily="@font/karla"
                         android:text="Shake left and right to pause timer"
                         android:textColor="#333333"
@@ -285,6 +288,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
+                    android:layout_marginStart="25dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
@@ -293,15 +297,17 @@
                         android:id="@+id/resetCheckBtn"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="15dp"
                         android:layout_weight="1"
                         android:text="Enable shaking to reset timer" />
+                        <!--android:button="@drawable/app_checkbox" -->
+                        <!--android:text="      Enable shaking to reset timer" -->
+
 
                     <TextView
                         android:id="@+id/upDownTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="49dp"
+                        android:layout_marginStart="35dp"
                         android:fontFamily="@font/karla"
                         android:text="Shake up and down to reset timer"
                         android:textColor="#333333"
