@@ -94,8 +94,8 @@
         android:layout_marginTop="24dp"
         android:background="@drawable/app_button"
         android:drawableStart="@drawable/play_icon"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
         android:text="@string/start_btn_label"
         android:textAllCaps="false"
         android:textColor="@color/primary_text_color"
@@ -137,8 +137,8 @@
             android:background="@drawable/app_button"
             android:backgroundTint="@color/white"
             android:drawableStart="@drawable/stop_icon"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
             android:text="Stop"
             android:textAllCaps="false" />
     </LinearLayout>
