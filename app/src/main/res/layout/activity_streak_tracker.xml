@@ -52,7 +52,7 @@
                 android:textColor="#333333"
                 android:textSize="32sp"
                 android:textStyle="bold"
-                tools:text="@string/app_name" />
+                android:text="@string/app_name" />
 
             <TextView
                 android:id="@+id/streakTV"
@@ -215,6 +215,7 @@
                 android:id="@+id/streakInfoHorizontalLL"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="20dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
