@@ -267,12 +267,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center">
+
                         <CheckBox
                             android:id="@+id/pauseCheckBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:scaleX="0.65"
                             android:scaleY="0.65"
+                            android:buttonTint="@color/primary_text_color"
                             />
                         <TextView
                             android:id="@+id/pauseCheckBtnText"
@@ -315,6 +317,7 @@
                             android:layout_height="wrap_content"
                             android:scaleX="0.65"
                             android:scaleY="0.65"
+                            android:buttonTint="@color/primary_text_color"
                             />
                         <TextView
                             android:id="@+id/resetCheckBtnText"
