@@ -1,6 +1,8 @@
 package com.mobdeve.chuachingdytocstamaria.mco.pomopet
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -26,26 +28,8 @@ class MainActivity : AppCompatActivity() {
     private var longBreakTimeInMins = SettingsActivity.DEFAULT_LONG_BREAK
     var timeInMs = initialTimeInMins * 60000L
 
-    private val settingsLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-        if (result.resultCode == RESULT_OK) {
-            val pomodoroTime = result.data?.getIntExtra(SettingsActivity.POMODORO_TIME_KEY,
-                SettingsActivity.DEFAULT_POMODORO_TIME)!!
-
-            this.shortBreakTimeInMins = result.data?.getIntExtra(SettingsActivity.SHORT_BREAK_KEY,
-                SettingsActivity.DEFAULT_SHORT_BREAK)!!
-
-            this.longBreakTimeInMins = result.data?.getIntExtra(SettingsActivity.LONG_BREAK_KEY,
-                SettingsActivity.DEFAULT_LONG_BREAK)!!
-
-            this.initialTimeInMins = pomodoroTime
-            this.timeInMs = minsToMs(pomodoroTime)
-
-            updateText()
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -55,8 +39,6 @@ class MainActivity : AppCompatActivity() {
         this.todoListRV.layoutManager = LinearLayoutManager(this,
             LinearLayoutManager.VERTICAL,
             false)
-
-        updateText()
 
         binding.startBtn.setOnClickListener{
             val time = minsToMs(initialTimeInMins)
@@ -82,11 +64,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.settingsBtn.setOnClickListener{
             val intent = Intent(binding.root.context, SettingsActivity::class.java)
-            intent.putExtra(SettingsActivity.POMODORO_TIME_KEY, initialTimeInMins)
-            intent.putExtra(SettingsActivity.SHORT_BREAK_KEY, shortBreakTimeInMins)
-            intent.putExtra(SettingsActivity.LONG_BREAK_KEY, longBreakTimeInMins)
-
-            settingsLauncher.launch(intent)
+            startActivity(intent)
         }
 
         binding.streakBtn.setOnClickListener{
@@ -95,6 +73,32 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        loadSharedPreferences()
+        updateText()
+    }
+
+    private fun loadSharedPreferences(){
+        val sp: SharedPreferences = getSharedPreferences(SettingsActivity.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
+
+
+        initialTimeInMins = sp.getInt(SettingsActivity.POMODORO_TIME_KEY,
+            SettingsActivity.DEFAULT_POMODORO_TIME)
+
+        Log.d("sharedpref", "load shared pref ${sp.getInt(SettingsActivity.POMODORO_TIME_KEY,
+            SettingsActivity.DEFAULT_POMODORO_TIME)}")
+
+        shortBreakTimeInMins = sp.getInt(SettingsActivity.SHORT_BREAK_KEY,
+            SettingsActivity.DEFAULT_SHORT_BREAK)
+
+        longBreakTimeInMins = sp.getInt(SettingsActivity.LONG_BREAK_KEY,
+            SettingsActivity.DEFAULT_LONG_BREAK)
+
+        this.timeInMs = minsToMs(initialTimeInMins)
 
     }
 

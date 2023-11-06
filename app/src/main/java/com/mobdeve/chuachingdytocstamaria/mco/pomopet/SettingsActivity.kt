@@ -1,6 +1,8 @@
 package com.mobdeve.chuachingdytocstamaria.mco.pomopet
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -20,6 +22,7 @@ class SettingsActivity : AppCompatActivity() {
         const val DEFAULT_POMODORO_TIME = 25
         const val DEFAULT_SHORT_BREAK = 5
         const val DEFAULT_LONG_BREAK = 10
+        const val SHARED_PREFERENCES_KEY = "Pomopet_Shared_Preferences"
     }
 
 
@@ -45,31 +48,7 @@ class SettingsActivity : AppCompatActivity() {
         defaultBtn = binding.defaultBtn
 
 
-
-        pomodoroTime = intent.getIntExtra(SettingsActivity.POMODORO_TIME_KEY,
-            SettingsActivity.DEFAULT_POMODORO_TIME)
-
-        shortBreakTime = intent.getIntExtra(SettingsActivity.SHORT_BREAK_KEY,
-            SettingsActivity.DEFAULT_SHORT_BREAK)
-
-        longBreakTime = intent.getIntExtra(SettingsActivity.LONG_BREAK_KEY,
-            SettingsActivity.DEFAULT_LONG_BREAK)
-
-        pomodoroETNumber.setText(pomodoroTime.toString())
-        shortBreakETNumber.setText(shortBreakTime.toString())
-        longBreakETNumber.setText(longBreakTime.toString())
-
         binding.settingsBackBtn.setOnClickListener{
-            if(isSaved){
-                val returnIntent = Intent()
-                returnIntent.putExtra(SettingsActivity.POMODORO_TIME_KEY,
-                    pomodoroETNumber.text.toString().toInt())
-                returnIntent.putExtra(SettingsActivity.SHORT_BREAK_KEY,
-                    shortBreakETNumber.text.toString().toInt())
-                returnIntent.putExtra(SettingsActivity.LONG_BREAK_KEY,
-                    longBreakETNumber.text.toString().toInt())
-                setResult(RESULT_OK, returnIntent)
-            }
             finish()
         }
 
@@ -118,6 +97,19 @@ class SettingsActivity : AppCompatActivity() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        loadSharedPreferences()
+        pomodoroETNumber.setText(pomodoroTime.toString())
+        shortBreakETNumber.setText(shortBreakTime.toString())
+        longBreakETNumber.setText(longBreakTime.toString())
+    }
+
+    override fun onPause() {
+        super.onPause()
+        saveToSharedPreferences()
+    }
+
     private fun isTextStillOriginal() : Boolean {
         if((this.pomodoroETNumber.text.toString().isEmpty()) or
             (this.shortBreakETNumber.text.toString().isEmpty())or
@@ -135,5 +127,31 @@ class SettingsActivity : AppCompatActivity() {
         shortBreakETNumber.setText(SettingsActivity.DEFAULT_SHORT_BREAK.toString())
         longBreakETNumber.setText(SettingsActivity.DEFAULT_LONG_BREAK.toString())
 
+    }
+
+    private fun saveToSharedPreferences(){
+        val sp:SharedPreferences = getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sp.edit()
+        Log.d("sharedpref", "settings on destroy ${pomodoroTime}")
+        editor.putInt(POMODORO_TIME_KEY, pomodoroTime)
+        editor.putInt(SHORT_BREAK_KEY, shortBreakTime)
+        editor.putInt(LONG_BREAK_KEY, longBreakTime)
+
+        editor.apply()
+
+    }
+
+    private fun loadSharedPreferences(){
+        val sp: SharedPreferences = getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
+
+
+        pomodoroTime = sp.getInt(SettingsActivity.POMODORO_TIME_KEY,
+            SettingsActivity.DEFAULT_POMODORO_TIME)
+
+        shortBreakTime = sp.getInt(SettingsActivity.SHORT_BREAK_KEY,
+            SettingsActivity.DEFAULT_SHORT_BREAK)
+
+        longBreakTime = sp.getInt(SettingsActivity.LONG_BREAK_KEY,
+            SettingsActivity.DEFAULT_LONG_BREAK)
     }
 }
