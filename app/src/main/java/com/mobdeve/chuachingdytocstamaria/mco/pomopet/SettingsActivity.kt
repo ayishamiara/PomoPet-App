@@ -1,7 +1,6 @@
 package com.mobdeve.chuachingdytocstamaria.mco.pomopet
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +9,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.databinding.ActivitySettingsBinding
@@ -23,17 +23,29 @@ class SettingsActivity : AppCompatActivity() {
         const val DEFAULT_SHORT_BREAK = 5
         const val DEFAULT_LONG_BREAK = 10
         const val SHARED_PREFERENCES_KEY = "Pomopet_Shared_Preferences"
+        const val PAUSE_SHAKE_KEY =  "PAUSE_SHAKE_KEY"
+        const val RESET_SHAKE_KEY =  "RESET_SHAKE_KEY"
+
+        const val DEFAULT_PAUSE = false
+        const val DEFAULT_RESET = false
     }
 
 
     private lateinit var binding: ActivitySettingsBinding
     private var isSaved = false
-    private var pomodoroTime: Int = SettingsActivity.DEFAULT_POMODORO_TIME
-    private var shortBreakTime: Int = SettingsActivity.DEFAULT_SHORT_BREAK
-    private var longBreakTime: Int = SettingsActivity.DEFAULT_LONG_BREAK
+
+    private var pomodoroTime: Int = DEFAULT_POMODORO_TIME
+    private var shortBreakTime: Int = DEFAULT_SHORT_BREAK
+    private var longBreakTime: Int = DEFAULT_LONG_BREAK
+
+    private var shakePause: Boolean = DEFAULT_PAUSE
+    private var shakeReset: Boolean = DEFAULT_RESET
+
     private lateinit var pomodoroETNumber: EditText
     private lateinit var longBreakETNumber: EditText
     private lateinit var shortBreakETNumber: EditText
+    private lateinit var shakePauseCb: CheckBox
+    private lateinit var shakeResetCb: CheckBox
     private lateinit var saveBtn: Button
     private lateinit var defaultBtn: Button
 
@@ -44,6 +56,10 @@ class SettingsActivity : AppCompatActivity() {
         pomodoroETNumber = binding.pomodoroETNumber
         longBreakETNumber = binding.longBreakETNumber
         shortBreakETNumber = binding.shortBreakETNumber
+
+        shakePauseCb = binding.pauseCheckBtn
+        shakeResetCb = binding.resetCheckBtn
+
         saveBtn = binding.saveBtn
         defaultBtn = binding.defaultBtn
 
@@ -58,6 +74,10 @@ class SettingsActivity : AppCompatActivity() {
             pomodoroTime = pomodoroETNumber.text.toString().toInt()
             shortBreakTime = shortBreakETNumber.text.toString().toInt()
             longBreakTime = longBreakETNumber.text.toString().toInt()
+
+            shakePause = shakePauseCb.isChecked
+            shakeReset = shakeResetCb.isChecked
+
             saveBtn.isEnabled = false
             saveBtn.isClickable = false
         }
@@ -95,6 +115,9 @@ class SettingsActivity : AppCompatActivity() {
         shortBreakETNumber.addTextChangedListener(textWatcher)
         pomodoroETNumber.addTextChangedListener(textWatcher)
 
+        shakePauseCb.setOnClickListener(checkBoxListen())
+        shakeResetCb.setOnClickListener(checkBoxListen())
+
     }
 
     override fun onStart() {
@@ -107,9 +130,22 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        saveToSharedPreferences()
+        if(isSaved){
+            saveToSharedPreferences()
+        }
     }
 
+    private fun checkBoxListen(): View.OnClickListener{
+        return View.OnClickListener {
+            if (isCheckBoxStillOriginal()){
+                saveBtn.isEnabled = false
+                saveBtn.isClickable = false
+            } else {
+                saveBtn.isEnabled = true
+                saveBtn.isClickable = true
+            }
+        }
+    }
     private fun isTextStillOriginal() : Boolean {
         if((this.pomodoroETNumber.text.toString().isEmpty()) or
             (this.shortBreakETNumber.text.toString().isEmpty())or
@@ -122,10 +158,17 @@ class SettingsActivity : AppCompatActivity() {
                 (this.longBreakETNumber.text?.toString()?.toInt() == longBreakTime)
     }
 
+    private fun isCheckBoxStillOriginal(): Boolean{
+        return (shakePause == shakePauseCb.isChecked) or
+                (shakeReset == shakeResetCb.isChecked)
+    }
+
     private fun setDefaults(){
-        pomodoroETNumber.setText(SettingsActivity.DEFAULT_POMODORO_TIME.toString())
-        shortBreakETNumber.setText(SettingsActivity.DEFAULT_SHORT_BREAK.toString())
-        longBreakETNumber.setText(SettingsActivity.DEFAULT_LONG_BREAK.toString())
+        pomodoroETNumber.setText(DEFAULT_POMODORO_TIME.toString())
+        shortBreakETNumber.setText(DEFAULT_SHORT_BREAK.toString())
+        longBreakETNumber.setText(DEFAULT_LONG_BREAK.toString())
+        shakePauseCb.isChecked = DEFAULT_PAUSE
+        shakeResetCb.isChecked = DEFAULT_RESET
 
     }
 
@@ -134,8 +177,14 @@ class SettingsActivity : AppCompatActivity() {
         val editor: SharedPreferences.Editor = sp.edit()
         Log.d("sharedpref", "settings on destroy ${pomodoroTime}")
         editor.putInt(POMODORO_TIME_KEY, pomodoroTime)
+
         editor.putInt(SHORT_BREAK_KEY, shortBreakTime)
+
         editor.putInt(LONG_BREAK_KEY, longBreakTime)
+
+        editor.putBoolean(PAUSE_SHAKE_KEY, shakePauseCb.isChecked)
+
+        editor.putBoolean(RESET_SHAKE_KEY, shakeResetCb.isChecked)
 
         editor.apply()
 
@@ -145,13 +194,14 @@ class SettingsActivity : AppCompatActivity() {
         val sp: SharedPreferences = getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
 
 
-        pomodoroTime = sp.getInt(SettingsActivity.POMODORO_TIME_KEY,
-            SettingsActivity.DEFAULT_POMODORO_TIME)
+        pomodoroTime = sp.getInt(POMODORO_TIME_KEY, DEFAULT_POMODORO_TIME)
 
-        shortBreakTime = sp.getInt(SettingsActivity.SHORT_BREAK_KEY,
-            SettingsActivity.DEFAULT_SHORT_BREAK)
+        shortBreakTime = sp.getInt(SHORT_BREAK_KEY, DEFAULT_SHORT_BREAK)
 
-        longBreakTime = sp.getInt(SettingsActivity.LONG_BREAK_KEY,
-            SettingsActivity.DEFAULT_LONG_BREAK)
+        longBreakTime = sp.getInt(LONG_BREAK_KEY, DEFAULT_LONG_BREAK)
+
+        shakePauseCb.isChecked = sp.getBoolean(PAUSE_SHAKE_KEY, DEFAULT_PAUSE)
+
+        shakeResetCb.isChecked = sp.getBoolean(RESET_SHAKE_KEY, DEFAULT_RESET)
     }
 }
