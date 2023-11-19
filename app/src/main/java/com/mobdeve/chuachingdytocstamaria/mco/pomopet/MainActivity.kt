@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private var lastUpdate: Long = 0
     private var lastX = 0f
     private var lastY = 0f
-    private val SHAKE_THRESHOLD_LOW = 600
+    private val SHAKE_THRESHOLD_LOW = 500
     private val SHAKE_THRESHOLD_HIGH = 1000
     private var isShakePauseChecked = false
     private var isShakeResetChecked = false
