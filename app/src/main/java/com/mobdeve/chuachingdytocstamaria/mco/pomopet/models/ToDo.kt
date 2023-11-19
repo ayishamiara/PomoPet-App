@@ -9,7 +9,8 @@ class ToDo {
     var label: String
         private set
 
-    constructor(label: String){
+    constructor(id: Int, label: String){
+        this.id = id
         this.label = label
         this.isDone = false
     }

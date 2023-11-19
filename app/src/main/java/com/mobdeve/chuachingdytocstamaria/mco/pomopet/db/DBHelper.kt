@@ -12,10 +12,11 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        TODO("Not yet implemented")
+        db?.execSQL(ToDoDB.CREATE_TABLE_STATEMENT)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        TODO("Not yet implemented")
+        db?.execSQL("DROP TABLE IF EXISTS ${ToDoDB.TABLE_NAME}")
+        onCreate(db)
     }
 }
