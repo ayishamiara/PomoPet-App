@@ -3,11 +3,17 @@ package com.mobdeve.chuachingdytocstamaria.mco.pomopet
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -17,7 +23,7 @@ import com.mobdeve.chuachingdytocstamaria.mco.pomopet.adapters.TodoAdapter
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.databinding.ActivityMainBinding
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.models.ToDo
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var todoListRV: RecyclerView
     private lateinit var countdownTimer: CountDownTimer
@@ -27,6 +33,17 @@ class MainActivity : AppCompatActivity() {
     private var shortBreakTimeInMins = SettingsActivity.DEFAULT_SHORT_BREAK
     private var longBreakTimeInMins = SettingsActivity.DEFAULT_LONG_BREAK
     var timeInMs = initialTimeInMins * 60000L
+
+    // ADDED
+    private lateinit var sensorManager: SensorManager
+    private var accelerometer: Sensor? = null
+    private var lastUpdate: Long = 0
+    private var lastX = 0f
+    private var lastY = 0f
+    private val SHAKE_THRESHOLD_LOW = 600
+    private val SHAKE_THRESHOLD_HIGH = 1000
+    private var isShakePauseChecked = false
+    private var isShakeResetChecked = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -39,6 +56,10 @@ class MainActivity : AppCompatActivity() {
         this.todoListRV.layoutManager = LinearLayoutManager(this,
             LinearLayoutManager.VERTICAL,
             false)
+
+        // ADDED
+        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
         binding.startBtn.setOnClickListener{
             val time = minsToMs(initialTimeInMins)
@@ -72,19 +93,19 @@ class MainActivity : AppCompatActivity() {
 
             startActivity(intent)
         }
-
-
     }
 
+    // EDITED
     override fun onStart() {
         super.onStart()
         loadSharedPreferences()
+        loadGyroscope()
         updateText()
     }
 
+    // EDITED
     private fun loadSharedPreferences(){
         val sp: SharedPreferences = getSharedPreferences(SettingsActivity.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
-
 
         initialTimeInMins = sp.getInt(SettingsActivity.POMODORO_TIME_KEY,
             SettingsActivity.DEFAULT_POMODORO_TIME)
@@ -98,9 +119,29 @@ class MainActivity : AppCompatActivity() {
         longBreakTimeInMins = sp.getInt(SettingsActivity.LONG_BREAK_KEY,
             SettingsActivity.DEFAULT_LONG_BREAK)
 
+        isShakePauseChecked = sp.getBoolean(SettingsActivity.PAUSE_SHAKE_KEY, false)
+        isShakeResetChecked = sp.getBoolean(SettingsActivity.RESET_SHAKE_KEY, false)
+
         this.timeInMs = minsToMs(initialTimeInMins)
 
     }
+
+    //ADDED
+    private fun loadGyroscope(){
+        if ((isShakePauseChecked || isShakeResetChecked) && sensorManager != null && accelerometer != null) {
+            // Only register the sensor listener if either shakePauseCb or shakeResetCb is checked
+            sensorManager.registerListener(
+                this,
+                accelerometer,
+                SensorManager.SENSOR_DELAY_NORMAL
+            )
+        } else {
+            // Unregister the sensor listener if neither shakePauseCb nor shakeResetCb is checked
+            sensorManager.unregisterListener(this)
+            //Toast.makeText(this, "Sensor service not detected or preferences not set.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 
     private fun minsToMs(timeInMins: Int): Long{
         return timeInMins * 60000L
@@ -150,7 +191,6 @@ class MainActivity : AppCompatActivity() {
         binding.pauseResumeBtn.text = "Pause"
         binding.pauseResumeBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(pauseIconDrawable, null, null, null)
 
-
     }
 
     private fun updateText(){
@@ -162,6 +202,99 @@ class MainActivity : AppCompatActivity() {
 
     private fun padTime(unit: Long): String{
         return unit.toString().padStart(2, '0')
+    }
+
+    // ADDED
+    override fun onSensorChanged(event: SensorEvent?) {
+        if (event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
+            val currentTime = System.currentTimeMillis()
+            if (currentTime - lastUpdate > 100) {
+                val diffTime = currentTime - lastUpdate
+                lastUpdate = currentTime
+
+                val x = event.values[0]
+                val y = event.values[1]
+
+                val deltaX = x - lastX
+                val deltaY = y - lastY
+
+                lastX = x
+                lastY = y
+
+                val speed = Math.sqrt((deltaX * deltaX + deltaY * deltaY).toDouble()) / diffTime * 10000
+
+                if (speed > SHAKE_THRESHOLD_LOW && speed < SHAKE_THRESHOLD_HIGH) {
+                    if (isShakePauseChecked && isShakeResetChecked) {
+                        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                            // Left-Right shake detected
+                            pauseTimerSettings()
+                        } else {
+                            // Up-Down shake detected
+                            resetTimer()
+                        }
+                    } else if (isShakePauseChecked) {
+                        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+                            // Left-Right shake detected
+                            pauseTimerSettings()
+                        }
+                    } else if (isShakeResetChecked) {
+                        if (Math.abs(deltaY) > Math.abs(deltaX)) {
+                            // Up-Down shake detected
+                            resetTimer()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // ADDED
+    private fun pauseTimerSettings() {
+        if (isRunning) {
+            val playIconDrawable = ContextCompat.getDrawable(this, R.drawable.play_icon)
+            binding.pauseResumeBtn.text = "Resume"
+            binding.pauseResumeBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                playIconDrawable,
+                null,
+                null,
+                null
+            )
+            countdownTimer.cancel()
+            isRunning = false
+        }
+    }
+
+    // ADDED
+    private fun resetTimer() {
+        stopTimer()
+        timeInMs = initialTimeInMins * 60000L // Reset to the initial time set in settings
+        updateText()
+        toggleViewElements(View.VISIBLE) // Show the start button and other necessary views
+        binding.startBtn.visibility = View.VISIBLE
+        binding.timerControlGroupLL.visibility = View.INVISIBLE
+    }
+
+    // ADDED
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
+        // Handle accuracy changes here if needed
+    }
+
+    // ADDED
+    override fun onPause() {
+        super.onPause()
+        sensorManager.unregisterListener(this)
+    }
+
+    //ADDED
+    override fun onResume() {
+        super.onResume()
+        accelerometer?.let {
+            sensorManager.registerListener(
+                this,
+                it,
+                SensorManager.SENSOR_DELAY_NORMAL
+            )
+        }
     }
 
 }
