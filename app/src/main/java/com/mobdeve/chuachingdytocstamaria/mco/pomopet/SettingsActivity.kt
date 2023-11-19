@@ -81,7 +81,7 @@ class SettingsActivity : AppCompatActivity() {
             saveBtn.isEnabled = false
             saveBtn.isClickable = false
         }
-
+;
         defaultBtn.setOnClickListener{
             this.isSaved = false
             saveBtn.isEnabled = true
@@ -158,9 +158,11 @@ class SettingsActivity : AppCompatActivity() {
                 (this.longBreakETNumber.text?.toString()?.toInt() == longBreakTime)
     }
 
+    // EDITED
     private fun isCheckBoxStillOriginal(): Boolean{
-        return (shakePause == shakePauseCb.isChecked) or
-                (shakeReset == shakeResetCb.isChecked)
+        //Toast.makeText(this, "shakepause1: " + shakePause + " shakepause2: " + shakePauseCb.isChecked + " shakereset1: " + shakeReset + " shakereset2: " + shakeResetCb.isChecked, Toast.LENGTH_SHORT).show();
+        return (shakePause == shakePauseCb.isChecked && shakeReset == shakeResetCb.isChecked)
+
     }
 
     private fun setDefaults(){
@@ -192,7 +194,6 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun loadSharedPreferences(){
         val sp: SharedPreferences = getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
-
 
         pomodoroTime = sp.getInt(POMODORO_TIME_KEY, DEFAULT_POMODORO_TIME)
 
