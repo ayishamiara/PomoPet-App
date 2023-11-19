@@ -45,6 +45,16 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private var isShakePauseChecked = false
     private var isShakeResetChecked = false
 
+    private var currentTimerType = TimerType.FOCUS
+    private var cycleCounter = 1
+
+
+    enum class TimerType {
+        FOCUS,
+        SHORT_BREAK,
+        LONG_BREAK
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -176,6 +186,27 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 binding.startBtn.visibility = View.VISIBLE
                 binding.timerControlGroupLL.visibility = View.INVISIBLE
 
+                when (currentTimerType) {
+                    TimerType.FOCUS -> {
+                        if (cycleCounter >= 4) {
+                            cycleCounter = 1
+                            Log.d("LongBreakStart", "--LONG Break Start--")
+                            startTimer(minsToMs(longBreakTimeInMins))
+                            currentTimerType = TimerType.LONG_BREAK
+                        }else{
+                            Log.d("ShortBreakStart", "--SHORT Break Start--")
+                            startTimer(minsToMs(shortBreakTimeInMins))
+                            currentTimerType = TimerType.SHORT_BREAK
+                        }
+                    }
+                    TimerType.SHORT_BREAK, TimerType.LONG_BREAK -> {
+                        cycleCounter++
+                        Log.d("CycleCounter", "Cycle Counter: $cycleCounter")
+                        Log.d("FocusStart", "--FOCUS Start--")
+                        startTimer(minsToMs(initialTimeInMins))
+                        currentTimerType = TimerType.FOCUS
+                    }
+                }
             }
 
             override fun onTick(millisUntilFinished: Long) {
@@ -185,6 +216,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
         isRunning = true
         countdownTimer.start()
+        toggleViewElements(View.INVISIBLE)
         binding.startBtn.visibility = View.INVISIBLE
         binding.timerControlGroupLL.visibility = View.VISIBLE
         val pauseIconDrawable = ContextCompat.getDrawable(this, R.drawable.pause_icon)

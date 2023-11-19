@@ -2,6 +2,7 @@ package com.mobdeve.chuachingdytocstamaria.mco.pomopet
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -11,6 +12,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.databinding.ActivitySettingsBinding
 
@@ -25,6 +27,10 @@ class SettingsActivity : AppCompatActivity() {
         const val SHARED_PREFERENCES_KEY = "Pomopet_Shared_Preferences"
         const val PAUSE_SHAKE_KEY =  "PAUSE_SHAKE_KEY"
         const val RESET_SHAKE_KEY =  "RESET_SHAKE_KEY"
+        const val THEME_KEY = "THEME_KEY"
+        const val THEME_BUNNY = 1
+        const val THEME_CAT = 2
+        const val THEME_BEAR = 3
 
         const val DEFAULT_PAUSE = false
         const val DEFAULT_RESET = false
@@ -48,6 +54,12 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var shakeResetCb: CheckBox
     private lateinit var saveBtn: Button
     private lateinit var defaultBtn: Button
+    private lateinit var bunnyBtn: ImageButton
+    private lateinit var catBtn: ImageButton
+    private lateinit var bearBtn: ImageButton
+
+    private var selectedTheme: Int = THEME_BUNNY
+    private var previousTheme: Int = THEME_BUNNY
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,9 +75,22 @@ class SettingsActivity : AppCompatActivity() {
         saveBtn = binding.saveBtn
         defaultBtn = binding.defaultBtn
 
+        bunnyBtn = binding.bunnyBtn
+        catBtn = binding.catBtn
+        bearBtn = binding.bearBtn
 
         binding.settingsBackBtn.setOnClickListener{
             finish()
+        }
+
+        bunnyBtn.setOnClickListener {
+            applyTheme(THEME_BUNNY)
+        }
+        catBtn.setOnClickListener {
+            applyTheme(THEME_CAT)
+        }
+        bearBtn.setOnClickListener {
+            applyTheme(THEME_BEAR)
         }
 
         saveBtn.setOnClickListener{
@@ -80,6 +105,8 @@ class SettingsActivity : AppCompatActivity() {
 
             saveBtn.isEnabled = false
             saveBtn.isClickable = false
+
+            bunnyBtn
         }
 ;
         defaultBtn.setOnClickListener{
@@ -118,6 +145,24 @@ class SettingsActivity : AppCompatActivity() {
         shakePauseCb.setOnClickListener(checkBoxListen())
         shakeResetCb.setOnClickListener(checkBoxListen())
 
+    }
+    private fun applyTheme(theme: Int) {
+        selectedTheme = theme
+        // Add logic to apply the selected theme, for example, changing the background or border of the selected theme button
+        when (theme) {
+            THEME_BUNNY -> {
+                bunnyBtn.setBackgroundResource(R.color.bunny_background_color)
+            }
+            THEME_CAT -> {
+                catBtn.setBackgroundResource(R.color.cat_background_color)
+            }
+            THEME_BEAR -> {
+                bearBtn.setBackgroundResource(R.color.bear_background_color)
+            }
+            else -> {
+                bunnyBtn.setBackgroundResource(R.color.bunny_background_color)
+            }
+        }
     }
 
     override fun onStart() {
@@ -171,12 +216,13 @@ class SettingsActivity : AppCompatActivity() {
         longBreakETNumber.setText(DEFAULT_LONG_BREAK.toString())
         shakePauseCb.isChecked = DEFAULT_PAUSE
         shakeResetCb.isChecked = DEFAULT_RESET
-
+        applyTheme(THEME_BUNNY)
     }
 
     private fun saveToSharedPreferences(){
         val sp:SharedPreferences = getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sp.edit()
+
         Log.d("sharedpref", "settings on destroy ${pomodoroTime}")
         editor.putInt(POMODORO_TIME_KEY, pomodoroTime)
 
@@ -188,12 +234,16 @@ class SettingsActivity : AppCompatActivity() {
 
         editor.putBoolean(RESET_SHAKE_KEY, shakeResetCb.isChecked)
 
+        editor.putInt(THEME_KEY, selectedTheme)
+
         editor.apply()
 
     }
 
     private fun loadSharedPreferences(){
         val sp: SharedPreferences = getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
+
+        previousTheme = selectedTheme
 
         pomodoroTime = sp.getInt(POMODORO_TIME_KEY, DEFAULT_POMODORO_TIME)
 
@@ -204,5 +254,22 @@ class SettingsActivity : AppCompatActivity() {
         shakePauseCb.isChecked = sp.getBoolean(PAUSE_SHAKE_KEY, DEFAULT_PAUSE)
 
         shakeResetCb.isChecked = sp.getBoolean(RESET_SHAKE_KEY, DEFAULT_RESET)
+
+        selectedTheme = sp.getInt(THEME_KEY, THEME_BUNNY)
+
+        // Check if the theme has changed from the previous theme
+        if (selectedTheme != previousTheme) {
+            applyTheme(selectedTheme)
+
+            // Theme has changed, enable the save button
+            saveBtn.isEnabled = true
+            saveBtn.isClickable = true
+        } else {
+            // Theme hasn't changed, disable the save button
+            saveBtn.isEnabled = false
+            saveBtn.isClickable = false
+        }
+
+        applyTheme(selectedTheme)
     }
 }
