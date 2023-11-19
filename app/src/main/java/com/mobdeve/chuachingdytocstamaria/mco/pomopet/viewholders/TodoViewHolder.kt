@@ -6,7 +6,7 @@ import com.mobdeve.chuachingdytocstamaria.mco.pomopet.models.ToDo
 
 class TodoViewHolder(val binding: ItemTodoBinding): ViewHolder(binding.root) {
     fun bindData(todo:ToDo){
-        binding.todoItemET.setHint(todo.label)
+        binding.todoItemET.hint = "Add to do list item here"
     }
     fun clearData(){
         binding.todoItemET.setText("")
