@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         LONG_BREAK
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         setContentView(binding.root)
 
         this.todoListRV = binding.todoListRV
-        this.todoListRV.adapter = TodoAdapter(arrayListOf(ToDo("Add todo list item here")))
+        this.todoListRV.adapter = TodoAdapter(arrayListOf(ToDo()))
         this.todoListRV.layoutManager = LinearLayoutManager(this,
             LinearLayoutManager.VERTICAL,
             false)

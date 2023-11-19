@@ -40,7 +40,7 @@ class TodoAdapter(private val data: ArrayList<ToDo>): Adapter<TodoViewHolder>() 
                     changed = false
                 } else if (!changed) {
                     // Only add a to-do item if it's not already added
-                    data.add(ToDo("Add to do list item here"))
+                    data.add(ToDo())
                     notifyItemInserted(data.size - 1)
                     changed = true
                 }
