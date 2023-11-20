@@ -4,17 +4,21 @@
         <item name="backgroundColor">@color/bunny_background_color</item>
         <item name="buttonTint">@color/bunny_theme_btn_active</item>
         <item name="colorPrimary">@color/pastel_pink</item>
+        <item name="srcCompat">@drawable/bunny_timer</item>
     </style>
 
     <style name="Cat.Theme.Pomopet" parent="Bunny.Theme.Pomopet">
         <item name="backgroundColor">@color/cat_background_color</item>
         <item name="buttonTint">@color/cat_light_gray</item>
         <item name="colorPrimary">@color/peach</item>
+        <item name="srcCompat">@drawable/cat_timer</item>
+
     </style>
 
     <style name="Bear.Theme.Pomopet" parent="Bunny.Theme.Pomopet">
         <item name="backgroundColor">@color/bear_background_color</item>
         <item name="buttonTint">@color/bear_brown</item>
         <item name="colorPrimary">@color/honey_brown</item>
+        <item name="srcCompat">@drawable/bear_timer</item>
     </style>
 </resources>
