@@ -1,7 +1,10 @@
 package com.mobdeve.chuachingdytocstamaria.mco.pomopet
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import android.media.Image
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,7 +17,9 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.databinding.ActivitySettingsBinding
+import com.mobdeve.chuachingdytocstamaria.mco.pomopet.utils.ThemeUtil
 
 class SettingsActivity : AppCompatActivity() {
     companion object{
@@ -28,9 +33,9 @@ class SettingsActivity : AppCompatActivity() {
         const val PAUSE_SHAKE_KEY =  "PAUSE_SHAKE_KEY"
         const val RESET_SHAKE_KEY =  "RESET_SHAKE_KEY"
         const val THEME_KEY = "THEME_KEY"
-        const val THEME_BUNNY = 1
-        const val THEME_CAT = 2
-        const val THEME_BEAR = 3
+        var THEME_BUNNY = R.style.Bunny_Theme_Pomopet
+        var THEME_CAT = R.style.Cat_Theme_Pomopet
+        var THEME_BEAR = R.style.Bear_Theme_Pomopet
 
         const val DEFAULT_PAUSE = false
         const val DEFAULT_RESET = false
@@ -59,12 +64,15 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var bearBtn: ImageButton
 
     private var selectedTheme: Int = THEME_BUNNY
-    private var previousTheme: Int = THEME_BUNNY
+//    private var previousTheme: Int = THEME_BUNNY
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        ThemeUtil.setThemeOnCreate(this, loadTheme())
+
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         pomodoroETNumber = binding.pomodoroETNumber
         longBreakETNumber = binding.longBreakETNumber
         shortBreakETNumber = binding.shortBreakETNumber
@@ -84,14 +92,24 @@ class SettingsActivity : AppCompatActivity() {
         }
 
         bunnyBtn.setOnClickListener {
-            applyTheme(THEME_BUNNY)
+            if (selectedTheme != THEME_BUNNY) {
+                selectThemeBtn(bunnyBtn, THEME_BUNNY)
+            }
         }
+
         catBtn.setOnClickListener {
-            applyTheme(THEME_CAT)
+            if (selectedTheme != THEME_CAT) {
+                selectThemeBtn(catBtn, THEME_CAT)
+            }
         }
+
         bearBtn.setOnClickListener {
-            applyTheme(THEME_BEAR)
+            if (selectedTheme != THEME_BEAR) {
+                selectThemeBtn(bearBtn, THEME_BEAR)
+            }
         }
+
+
 
         saveBtn.setOnClickListener{
             this.isSaved = true
@@ -103,16 +121,15 @@ class SettingsActivity : AppCompatActivity() {
             shakePause = shakePauseCb.isChecked
             shakeReset = shakeResetCb.isChecked
 
-            saveBtn.isEnabled = false
-            saveBtn.isClickable = false
+            updateSaveButtonState(false)
 
-            bunnyBtn
+            ThemeUtil.changeTheme(this, selectedTheme)
+
         }
 ;
         defaultBtn.setOnClickListener{
             this.isSaved = false
-            saveBtn.isEnabled = true
-            saveBtn.isClickable = true
+            updateSaveButtonState(true)
             setDefaults()
         }
 
@@ -127,13 +144,11 @@ class SettingsActivity : AppCompatActivity() {
                 isSaved = false
                 if(isTextStillOriginal().not()){
                     Log.d("on change", "changed not original")
-                    saveBtn.isEnabled = true
-                    saveBtn.isClickable = true
+                    updateSaveButtonState(true)
                 } else {
                     Log.d("on change", "changed original")
                     Log.d("on change", "$pomodoroTime")
-                    saveBtn.isEnabled = false
-                    saveBtn.isClickable = false
+                    updateSaveButtonState(false)
                 }
             }
         }
@@ -146,31 +161,18 @@ class SettingsActivity : AppCompatActivity() {
         shakeResetCb.setOnClickListener(checkBoxListen())
 
     }
-    private fun applyTheme(theme: Int) {
-        selectedTheme = theme
-        // Add logic to apply the selected theme, for example, changing the background or border of the selected theme button
-        when (theme) {
-            THEME_BUNNY -> {
-                bunnyBtn.setBackgroundResource(R.color.bunny_background_color)
-            }
-            THEME_CAT -> {
-                catBtn.setBackgroundResource(R.color.cat_background_color)
-            }
-            THEME_BEAR -> {
-                bearBtn.setBackgroundResource(R.color.bear_background_color)
-            }
-            else -> {
-                bunnyBtn.setBackgroundResource(R.color.bunny_background_color)
-            }
-        }
-    }
 
     override fun onStart() {
         super.onStart()
         loadSharedPreferences()
+        ThemeUtil.previousTheme = selectedTheme
+        ThemeUtil.selectedTheme = selectedTheme
+        initThemeButtons()
         pomodoroETNumber.setText(pomodoroTime.toString())
         shortBreakETNumber.setText(shortBreakTime.toString())
         longBreakETNumber.setText(longBreakTime.toString())
+
+
     }
 
     override fun onPause() {
@@ -183,11 +185,9 @@ class SettingsActivity : AppCompatActivity() {
     private fun checkBoxListen(): View.OnClickListener{
         return View.OnClickListener {
             if (isCheckBoxStillOriginal()){
-                saveBtn.isEnabled = false
-                saveBtn.isClickable = false
+                updateSaveButtonState(false)
             } else {
-                saveBtn.isEnabled = true
-                saveBtn.isClickable = true
+                updateSaveButtonState(true)
             }
         }
     }
@@ -216,7 +216,6 @@ class SettingsActivity : AppCompatActivity() {
         longBreakETNumber.setText(DEFAULT_LONG_BREAK.toString())
         shakePauseCb.isChecked = DEFAULT_PAUSE
         shakeResetCb.isChecked = DEFAULT_RESET
-        applyTheme(THEME_BUNNY)
     }
 
     private fun saveToSharedPreferences(){
@@ -236,6 +235,7 @@ class SettingsActivity : AppCompatActivity() {
 
         editor.putInt(THEME_KEY, selectedTheme)
 
+
         editor.apply()
 
     }
@@ -243,7 +243,7 @@ class SettingsActivity : AppCompatActivity() {
     private fun loadSharedPreferences(){
         val sp: SharedPreferences = getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
 
-        previousTheme = selectedTheme
+//        previousTheme = selectedTheme
 
         pomodoroTime = sp.getInt(POMODORO_TIME_KEY, DEFAULT_POMODORO_TIME)
 
@@ -257,19 +257,59 @@ class SettingsActivity : AppCompatActivity() {
 
         selectedTheme = sp.getInt(THEME_KEY, THEME_BUNNY)
 
+
         // Check if the theme has changed from the previous theme
-        if (selectedTheme != previousTheme) {
-            applyTheme(selectedTheme)
+//        if (selectedTheme != previousTheme) {
+////            applyTheme(selectedTheme)
+//
+//            // Theme has changed, enable the save button
+//            saveBtn.isEnabled = true
+//            saveBtn.isClickable = true
+//        } else {
+//            // Theme hasn't changed, disable the save button
+//            saveBtn.isEnabled = false
+//            saveBtn.isClickable = false
+//        }
 
-            // Theme has changed, enable the save button
-            saveBtn.isEnabled = true
-            saveBtn.isClickable = true
-        } else {
-            // Theme hasn't changed, disable the save button
-            saveBtn.isEnabled = false
-            saveBtn.isClickable = false
-        }
-
-        applyTheme(selectedTheme)
+//        applyTheme(selectedTheme)
     }
+
+    private fun loadTheme(): Int{
+        val sp: SharedPreferences = getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
+
+        selectedTheme = sp.getInt(THEME_KEY, THEME_BUNNY)
+
+        return selectedTheme
+    }
+
+    @SuppressLint("ResourceAsColor")
+    fun selectThemeBtn(button: ImageButton, theme: Int) {
+        // Reset color of previously selected button
+        bunnyBtn.backgroundTintList = ContextCompat.getColorStateList(this, R.color.theme_disabled_button)
+        catBtn.backgroundTintList = ContextCompat.getColorStateList(this, R.color.theme_disabled_button)
+        bearBtn.backgroundTintList = ContextCompat.getColorStateList(this, R.color.theme_disabled_button)
+
+        // Set color of the clicked button
+        button.backgroundTintList = ContextCompat.getColorStateList(this, R.color.theme_enabled_button)
+
+        // Update save button state
+        updateSaveButtonState(ThemeUtil.previousTheme != theme)
+        selectedTheme = theme
+    }
+
+    fun updateSaveButtonState(enable: Boolean) {
+        saveBtn.isEnabled = enable
+        saveBtn.isClickable = enable
+    }
+
+    private fun initThemeButtons(){
+        var btn: ImageButton = bunnyBtn;
+        when(selectedTheme){
+            THEME_BUNNY -> btn = bunnyBtn
+            THEME_CAT -> btn = catBtn
+            THEME_BEAR -> btn = bearBtn
+        }
+        selectThemeBtn(btn, selectedTheme)
+    }
+
 }

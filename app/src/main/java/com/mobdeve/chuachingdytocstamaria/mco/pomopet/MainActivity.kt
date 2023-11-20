@@ -29,6 +29,7 @@ import com.mobdeve.chuachingdytocstamaria.mco.pomopet.models.ToDo
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
+import com.mobdeve.chuachingdytocstamaria.mco.pomopet.utils.ThemeUtil
 import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
@@ -72,7 +73,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.Bunny_Theme_Pomopet)
+        ThemeUtil.setThemeOnCreate(this, loadTheme())
+
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
@@ -136,7 +138,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         loadSharedPreferences()
         loadGyroscope()
         updateText()
-//        todos = todoDb.getAllTodos()
     }
 
     override fun onStop() {
@@ -172,6 +173,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         this.timeInMs = minsToMs(initialTimeInMins)
 
+    }
+    private fun loadTheme(): Int{
+        val sp: SharedPreferences = getSharedPreferences(SettingsActivity.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
+
+        val selectedTheme = sp.getInt(SettingsActivity.THEME_KEY, SettingsActivity.THEME_BUNNY)
+
+        return selectedTheme
     }
 
     //ADDED

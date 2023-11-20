@@ -26,4 +26,9 @@
     <color name="enabled_button">#FFD2D2</color>
     <color name="disabled_button">#E9E9E9</color>
 
+    <!-- THEME BUTTON STATES -->
+    <color name="theme_enabled_button">#FFBFBFBF</color>
+    <color name="theme_disabled_button">#D3D3D3</color>
+
+
 </resources>
