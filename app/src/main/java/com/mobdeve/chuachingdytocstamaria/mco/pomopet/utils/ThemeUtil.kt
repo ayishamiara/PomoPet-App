@@ -13,7 +13,7 @@ class ThemeUtil {
         var previousTheme: Int = R.style.Bunny_Theme_Pomopet
 
         fun changeTheme(activity: Activity, theme: Int){
-//            selectedTheme = theme
+            selectedTheme = theme
             activity.finish()
 
             val intent = Intent(activity, activity.javaClass)

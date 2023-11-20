@@ -21,7 +21,7 @@ import androidx.core.content.ContextCompat
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.databinding.ActivitySettingsBinding
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.utils.ThemeUtil
 
-class SettingsActivity : AppCompatActivity() {
+class SettingsActivity : BaseActivity() {
     companion object{
         const val POMODORO_TIME_KEY = "POMODORO_TIME_KEY"
         const val SHORT_BREAK_KEY = "SHORT_BREAK_KEY"
@@ -33,6 +33,9 @@ class SettingsActivity : AppCompatActivity() {
         const val PAUSE_SHAKE_KEY =  "PAUSE_SHAKE_KEY"
         const val RESET_SHAKE_KEY =  "RESET_SHAKE_KEY"
         const val THEME_KEY = "THEME_KEY"
+
+        const val THEME_REQUEST_CODE = 101
+
         var THEME_BUNNY = R.style.Bunny_Theme_Pomopet
         var THEME_CAT = R.style.Cat_Theme_Pomopet
         var THEME_BEAR = R.style.Bear_Theme_Pomopet
@@ -64,12 +67,11 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var bearBtn: ImageButton
 
     private var selectedTheme: Int = THEME_BUNNY
+    private var themeChanged: Boolean = false
 //    private var previousTheme: Int = THEME_BUNNY
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ThemeUtil.setThemeOnCreate(this, loadTheme())
-
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -126,7 +128,7 @@ class SettingsActivity : AppCompatActivity() {
             ThemeUtil.changeTheme(this, selectedTheme)
 
         }
-;
+
         defaultBtn.setOnClickListener{
             this.isSaved = false
             updateSaveButtonState(true)
@@ -274,14 +276,6 @@ class SettingsActivity : AppCompatActivity() {
 //        applyTheme(selectedTheme)
     }
 
-    private fun loadTheme(): Int{
-        val sp: SharedPreferences = getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
-
-        selectedTheme = sp.getInt(THEME_KEY, THEME_BUNNY)
-
-        return selectedTheme
-    }
-
     @SuppressLint("ResourceAsColor")
     fun selectThemeBtn(button: ImageButton, theme: Int) {
         // Reset color of previously selected button
@@ -293,7 +287,8 @@ class SettingsActivity : AppCompatActivity() {
         button.backgroundTintList = ContextCompat.getColorStateList(this, R.color.theme_enabled_button)
 
         // Update save button state
-        updateSaveButtonState(ThemeUtil.previousTheme != theme)
+        themeChanged = ThemeUtil.previousTheme != theme
+        updateSaveButtonState(themeChanged)
         selectedTheme = theme
     }
 

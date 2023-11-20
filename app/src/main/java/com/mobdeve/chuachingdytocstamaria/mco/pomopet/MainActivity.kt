@@ -1,5 +1,6 @@
 package com.mobdeve.chuachingdytocstamaria.mco.pomopet
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -32,7 +33,7 @@ import java.util.Locale
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.utils.ThemeUtil
 import java.util.concurrent.Executors
 
-class MainActivity : AppCompatActivity(), SensorEventListener {
+class MainActivity : BaseActivity(), SensorEventListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var todoListRV: RecyclerView
     private lateinit var countdownTimer: CountDownTimer
@@ -63,6 +64,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private var cycleTimer = 0
 
     private val executorService = Executors.newSingleThreadExecutor()
+    private val settingsLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        // TODO: add a way to recreate only when the theme changes
+        recreate()
+    }
 
 
     enum class TimerType {
@@ -73,10 +79,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ThemeUtil.setThemeOnCreate(this, loadTheme())
-
         binding = ActivityMainBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
 
         todoDb = ToDoDB(applicationContext)
@@ -122,7 +125,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         binding.settingsBtn.setOnClickListener{
             val intent = Intent(binding.root.context, SettingsActivity::class.java)
-            startActivity(intent)
+            settingsLauncher.launch(intent)
+//            startActivity(intent)
         }
 
         binding.streakBtn.setOnClickListener{
@@ -140,6 +144,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         updateText()
     }
 
+
     override fun onStop() {
         todos.forEach{todo ->
             if(todo.id == -1 && todo.label.isNotEmpty()){
@@ -150,6 +155,25 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             }
         }
         super.onStop()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        sensorManager.unregisterListener(this)
+    }
+
+    //ADDED
+    override fun onResume() {
+        super.onResume()
+        Log.d("MainActivity", "onResume called")
+        ThemeUtil.setThemeOnCreate(this, loadTheme())
+        accelerometer?.let {
+            sensorManager.registerListener(
+                this,
+                it,
+                SensorManager.SENSOR_DELAY_NORMAL
+            )
+        }
     }
 
     // EDITED
@@ -173,13 +197,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
         this.timeInMs = minsToMs(initialTimeInMins)
 
-    }
-    private fun loadTheme(): Int{
-        val sp: SharedPreferences = getSharedPreferences(SettingsActivity.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
-
-        val selectedTheme = sp.getInt(SettingsActivity.THEME_KEY, SettingsActivity.THEME_BUNNY)
-
-        return selectedTheme
     }
 
     //ADDED
@@ -378,22 +395,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     }
 
     // ADDED
-    override fun onPause() {
-        super.onPause()
-        sensorManager.unregisterListener(this)
-    }
 
-    //ADDED
-    override fun onResume() {
-        super.onResume()
-        accelerometer?.let {
-            sensorManager.registerListener(
-                this,
-                it,
-                SensorManager.SENSOR_DELAY_NORMAL
-            )
-        }
-    }
 
     private fun playNotificationSound() {
         try {
