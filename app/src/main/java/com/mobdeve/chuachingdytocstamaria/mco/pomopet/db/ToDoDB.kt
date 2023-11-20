@@ -3,6 +3,7 @@ package com.mobdeve.chuachingdytocstamaria.mco.pomopet.db
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
+import android.util.Log
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.models.ToDo
 
 class ToDoDB(context: Context) {
@@ -21,7 +22,7 @@ class ToDoDB(context: Context) {
         """
     }
 
-    private lateinit var dbHelper : DBHelper
+    private var dbHelper : DBHelper
 
     // Initializes the databaseHandler instance using the context provided.
     init {
@@ -58,18 +59,19 @@ class ToDoDB(context: Context) {
         val todos = ArrayList<ToDo>()
         val db = dbHelper.readableDatabase
         var cursor: Cursor = db.query(TABLE_NAME, null,
-            "$COL_IS_DONE=?", arrayOf("false"),
+            "$COL_IS_DONE=?", arrayOf("0"),
             null, null, null)
-
         while(cursor.moveToNext()){
             val todo = ToDo(
                 cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID)),
                 cursor.getString(cursor.getColumnIndexOrThrow(COL_LABEL))
             )
+            Log.d("gettodos", "${todo.id}, ${todo.label}")
             todos.add(todo)
         }
+        Log.d("gettodos", "${todos.size}")
 
-        return todos
+        return if (todos.size > 0) todos else arrayListOf(ToDo())
 
     }
 

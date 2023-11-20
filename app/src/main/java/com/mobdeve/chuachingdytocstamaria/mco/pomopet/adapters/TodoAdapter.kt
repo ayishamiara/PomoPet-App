@@ -11,6 +11,7 @@ import android.view.animation.ScaleAnimation
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.databinding.ItemTodoBinding
+import com.mobdeve.chuachingdytocstamaria.mco.pomopet.db.ToDoDB
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.models.ToDo
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.viewholders.TodoViewHolder
 
@@ -25,6 +26,9 @@ class TodoAdapter(private val data: ArrayList<ToDo>): Adapter<TodoViewHolder>() 
         val todoCheckBtn = view.todoBtn
         var changed = false
 
+        val todoDb = ToDoDB(parent.context)
+
+
         val textWatcher: TextWatcher = object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 // Handle any necessary logic after text changes, if needed
@@ -35,14 +39,25 @@ class TodoAdapter(private val data: ArrayList<ToDo>): Adapter<TodoViewHolder>() 
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val position = todoViewHolder.adapterPosition
                 if (s.isNullOrEmpty()) {
                     // If the text is empty, reset the "changed" flag
                     changed = false
                 } else if (!changed) {
-                    // Only add a to-do item if it's not already added
-                    data.add(ToDo())
-                    notifyItemInserted(data.size - 1)
-                    changed = true
+                    if (position < data.size) {
+                        parent.post {
+                            data[position].label = todoItemText.text.toString()
+                        }
+                    }
+
+                    // Add a new ToDo object if needed
+                    if (position == data.size - 1 && s.isNotEmpty()) {
+                        parent.post {
+                            data.add(ToDo())
+                            notifyItemInserted(position + 1)
+                        }
+                    }
+
                 }
             }
         }
@@ -51,9 +66,12 @@ class TodoAdapter(private val data: ArrayList<ToDo>): Adapter<TodoViewHolder>() 
         todoCheckBtn.setOnClickListener{
             val position = todoViewHolder.adapterPosition
             if(todoItemText.text.isNotEmpty() && position < data.size){
-                data.remove(data[position])
-                notifyItemRemoved(position)
-                todoViewHolder.clearData()
+                    data[position].isDone = true
+                    todoDb.updateTodo(data[position])
+                    data.remove(data[position])
+                    notifyItemRemoved(position)
+                    todoViewHolder.clearData()
+
             }
         }
 

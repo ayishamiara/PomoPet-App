@@ -8,7 +8,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
 
     companion object{
         private const val DATABASE_VERSION = 1
-        private const val DATABASE_NAME = "pomopet_db"
+        private const val DATABASE_NAME = "pomopet_db.db"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {

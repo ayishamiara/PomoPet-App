@@ -21,7 +21,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.adapters.TodoAdapter
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.databinding.ActivityMainBinding
+import com.mobdeve.chuachingdytocstamaria.mco.pomopet.db.ToDoDB
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.models.ToDo
+import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
     private lateinit var binding: ActivityMainBinding
@@ -44,9 +46,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private val SHAKE_THRESHOLD_HIGH = 1000
     private var isShakePauseChecked = false
     private var isShakeResetChecked = false
+    private lateinit var todos: ArrayList<ToDo>
+    private lateinit var todoDb: ToDoDB
 
     private var currentTimerType = TimerType.FOCUS
     private var cycleCounter = 1
+
+    private val executorService = Executors.newSingleThreadExecutor()
 
 
     enum class TimerType {
@@ -55,18 +61,24 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         LONG_BREAK
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        this.todoListRV = binding.todoListRV
-        this.todoListRV.adapter = TodoAdapter(arrayListOf(ToDo()))
-        this.todoListRV.layoutManager = LinearLayoutManager(this,
-            LinearLayoutManager.VERTICAL,
-            false)
+        todoDb = ToDoDB(applicationContext)
+
+        executorService.execute{
+            todos = todoDb.getAllTodos()
+            runOnUiThread{
+                Log.d("todos", "${todos.size}")
+                this.todoListRV = binding.todoListRV
+                this.todoListRV.adapter = TodoAdapter(todos)
+                this.todoListRV.layoutManager = LinearLayoutManager(this,
+                    LinearLayoutManager.VERTICAL,
+                    false)
+            }
+        }
 
         // ADDED
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
@@ -112,6 +124,20 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         loadSharedPreferences()
         loadGyroscope()
         updateText()
+//        todos = todoDb.getAllTodos()
+    }
+
+    override fun onStop() {
+
+        todos.forEach{todo ->
+            if(todo.id == -1 && todo.label.isNotEmpty()){
+                val id = todoDb.addToDo(todo)
+                todo.id = id
+            } else{
+                todoDb.updateTodo(todo)
+            }
+        }
+        super.onStop()
     }
 
     // EDITED
