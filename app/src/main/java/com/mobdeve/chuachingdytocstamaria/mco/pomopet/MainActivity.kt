@@ -27,6 +27,7 @@ import com.mobdeve.chuachingdytocstamaria.mco.pomopet.models.Streak
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.models.ToDo
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
@@ -56,6 +57,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private var currentTimerType = TimerType.FOCUS
     private var cycleCounter = 1
+    private var cycleTimer = 0
 
     private val executorService = Executors.newSingleThreadExecutor()
 
@@ -223,16 +225,22 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 binding.timerControlGroupLL.visibility = View.INVISIBLE
                 addStreakDay()
 
+                val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().time)
+                val streakTemp = Streak(date = currentDate, cycle = cycleTimer)
+                streakDb.updateCycle(streakTemp)
+
                 when (currentTimerType) {
                     TimerType.FOCUS -> {
                         if (cycleCounter >= 4) {
                             cycleCounter = 1
+                            cycleTimer++
                             Log.d("LongBreakStart", "--LONG Break Start--")
                             startTimer(minsToMs(longBreakTimeInMins))
                             currentTimerType = TimerType.LONG_BREAK
                             binding.longBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_active)
                             binding.pomoBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_inactive)
                         }else{
+                            cycleTimer++
                             Log.d("ShortBreakStart", "--SHORT Break Start--")
                             startTimer(minsToMs(shortBreakTimeInMins))
                             currentTimerType = TimerType.SHORT_BREAK

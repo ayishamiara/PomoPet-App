@@ -51,8 +51,8 @@ class StreakDB(context: Context) {
         db.update(
             StreakDB.TABLE_NAME,
             contentValues,
-            "${StreakDB.COL_ID} = ?",
-            arrayOf(streak.id.toString())
+            "${StreakDB.COL_DATE} = ?",
+            arrayOf(streak.date)
         )
 
         db.close()
