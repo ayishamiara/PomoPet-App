@@ -25,7 +25,7 @@ class StreakTrackerActivity : AppCompatActivity() {
         val data = generateStreak()
         createStreaks(data)
 
-//        binding.dailyStreakTV.setText()
+        binding.dailyStreakNumTV.text = streakDB.getStreakDates().toString()
         binding.completedCyclesNumTV.text = streakDB.getCycles().toString()
 
         binding.streakBackBtn.setOnClickListener{
@@ -78,22 +78,19 @@ class StreakTrackerActivity : AppCompatActivity() {
         val currentDate = Calendar.getInstance()
         val date = startDate.clone() as Calendar
 
-        while (date.before(currentDate)) {
+        while (date.compareTo(currentDate) <= 0) {
             val dateStr = SimpleDateFormat("yyyy-MM-dd").format(date.time)
 
             // Check if the streak date exists in the database
-            // Check if the streak date exists in the database
-            val streakState = try {
-                val streakState = if (streakDB.isDateInDB(dateStr)) StreakState.PRODUCTIVE else StreakState.MISSED
+            try {
+                val isDateInDB = streakDB.isDateInDB(dateStr)
+                val streakState = if (isDateInDB) StreakState.PRODUCTIVE else StreakState.MISSED
                 streakData.add(streakState)
             } catch (e: Exception) {
-                // Handle any exceptions (e.g., database errors) gracefully
                 e.printStackTrace()
-                // You might want to add a default state or handle the exception according to your logic
                 streakData.add(StreakState.MISSED)
             }
 
-//            val randomState = if (random.nextBoolean()) StreakState.PRODUCTIVE else StreakState.MISSED
             date.add(Calendar.DAY_OF_YEAR, 1)
         }
 
