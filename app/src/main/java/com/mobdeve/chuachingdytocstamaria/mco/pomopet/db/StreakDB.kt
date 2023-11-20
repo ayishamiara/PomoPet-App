@@ -17,7 +17,7 @@ class StreakDB(context: Context) {
             CREATE TABLE IF NOT EXISTS $TABLE_NAME (
                 $COL_ID INTEGER PRIMARY KEY,
                 $COL_DATE TEXT NOT NULL,
-                $COL_CYCLE_NUM INTEGER NOT NULL
+                $COL_CYCLE_NUM INTEGER
             );
         """
     }
@@ -74,5 +74,48 @@ class StreakDB(context: Context) {
         Log.d("getStreaks", "${streaks.size}")
 
         return if (streaks.size > 0) streaks else arrayListOf(Streak())
+    }
+    fun isDateInDB(date: String): Boolean {
+        val db = dbHelper.readableDatabase
+        val cursor = db.query(
+            TABLE_NAME,
+            null,
+            "$COL_DATE = ?",
+            arrayOf(date),
+            null,
+            null,
+            null
+        )
+        val exists = cursor.count > 0
+        cursor.close()
+        return exists
+    }
+
+    fun getStreakForDate(date: String): Streak? {
+        val db = dbHelper.readableDatabase
+        val selection = "$COL_DATE = ?"
+        val selectionArgs = arrayOf(date)
+
+        val cursor = db.query(
+            TABLE_NAME,
+            null,
+            selection,
+            selectionArgs,
+            null,
+            null,
+            null
+        )
+
+        var streak: Streak? = null
+
+        if (cursor.moveToFirst()) {
+            // Streak exists for the given date, create a Streak object
+            val id = cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID))
+            val cycle = cursor.getInt(cursor.getColumnIndexOrThrow(COL_CYCLE_NUM))
+            streak = Streak(id, date, cycle)
+        }
+
+        cursor.close()
+        return streak
     }
 }

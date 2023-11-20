@@ -21,8 +21,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.adapters.TodoAdapter
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.databinding.ActivityMainBinding
+import com.mobdeve.chuachingdytocstamaria.mco.pomopet.db.StreakDB
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.db.ToDoDB
+import com.mobdeve.chuachingdytocstamaria.mco.pomopet.models.Streak
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.models.ToDo
+import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
@@ -48,6 +52,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private var isShakeResetChecked = false
     private lateinit var todos: ArrayList<ToDo>
     private lateinit var todoDb: ToDoDB
+    private lateinit var streakDb: StreakDB
 
     private var currentTimerType = TimerType.FOCUS
     private var cycleCounter = 1
@@ -63,12 +68,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.Bear_Theme_Pomopet)
+        setTheme(R.style.Bunny_Theme_Pomopet)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
 
         todoDb = ToDoDB(applicationContext)
+        streakDb = StreakDB(applicationContext)
 
         executorService.execute{
             todos = todoDb.getAllTodos()
@@ -126,6 +132,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         loadSharedPreferences()
         loadGyroscope()
         updateText()
+
 //        todos = todoDb.getAllTodos()
     }
 
@@ -214,6 +221,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 toggleViewElements(View.VISIBLE)
                 binding.startBtn.visibility = View.VISIBLE
                 binding.timerControlGroupLL.visibility = View.INVISIBLE
+                addStreakDay()
 
                 when (currentTimerType) {
                     TimerType.FOCUS -> {
@@ -231,6 +239,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                             binding.shortBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_active)
                             binding.pomoBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_inactive)
                         }
+
                     }
                     TimerType.SHORT_BREAK, TimerType.LONG_BREAK -> {
                         cycleCounter++
@@ -366,6 +375,22 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 it,
                 SensorManager.SENSOR_DELAY_NORMAL
             )
+        }
+    }
+    private fun addStreakDay() {
+        val streakDB = StreakDB(this)
+
+        // Get the current date in the format "yyyy-MM-dd"
+        val currentDateStr = SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().time)
+
+        // Fetch the streak for the current date
+        val existingStreak = streakDB.getStreakForDate(currentDateStr)
+
+        if (existingStreak == null) {
+            // If no streak exists for the current date, add a new streak day
+            val streak = Streak(date = currentDateStr)  // Assuming cycle is 0 for a new streak day
+            val id = streakDB.addDate(streak)
+            streak.id = id
         }
     }
 
