@@ -19,5 +19,4 @@ class ToDo {
         this.label = label
         this.isDone = false
     }
-
 }
