@@ -16,6 +16,7 @@ class StreakTrackerActivity : AppCompatActivity() {
     private val PAWS_PER_ROW = 16
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val streakDB = StreakDB(this)
         super.onCreate(savedInstanceState)
         binding = ActivityStreakTrackerBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -23,6 +24,9 @@ class StreakTrackerActivity : AppCompatActivity() {
         // where the data is taken from the db
         val data = generateStreak()
         createStreaks(data)
+
+//        binding.dailyStreakTV.setText()
+        binding.completedCyclesNumTV.text = streakDB.getCycles().toString()
 
         binding.streakBackBtn.setOnClickListener{
             finish()
@@ -80,14 +84,16 @@ class StreakTrackerActivity : AppCompatActivity() {
             // Check if the streak date exists in the database
             // Check if the streak date exists in the database
             val streakState = try {
-                if (streakDB.isDateInDB(dateStr)) StreakState.PRODUCTIVE else StreakState.MISSED
+                val streakState = if (streakDB.isDateInDB(dateStr)) StreakState.PRODUCTIVE else StreakState.MISSED
+                streakData.add(streakState)
             } catch (e: Exception) {
                 // Handle any exceptions (e.g., database errors) gracefully
-                StreakState.MISSED
+                e.printStackTrace()
+                // You might want to add a default state or handle the exception according to your logic
+                streakData.add(StreakState.MISSED)
             }
 
 //            val randomState = if (random.nextBoolean()) StreakState.PRODUCTIVE else StreakState.MISSED
-            streakData.add(streakState)
             date.add(Calendar.DAY_OF_YEAR, 1)
         }
 

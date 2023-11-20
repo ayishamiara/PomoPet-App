@@ -75,6 +75,25 @@ class StreakDB(context: Context) {
 
         return if (streaks.size > 0) streaks else arrayListOf(Streak())
     }
+
+    fun getCycles(): Int{
+        var total = 0
+
+        val db = dbHelper.readableDatabase
+        var cursor: Cursor = db.query(TABLE_NAME, null, null, null,null, null, null)
+        while(cursor.moveToNext()){
+            val streak = Streak(
+                cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID)),
+                cursor.getString(cursor.getColumnIndexOrThrow(COL_DATE)),
+                cursor.getInt(cursor.getColumnIndexOrThrow(COL_CYCLE_NUM))
+            )
+            Log.d("getCycleNum", "${streak.id}, ${streak.date}, ${streak.cycle_num}")
+            total += streak.cycle_num
+        }
+
+        return total
+    }
+
     fun isDateInDB(date: String): Boolean {
         val db = dbHelper.readableDatabase
         val cursor = db.query(
