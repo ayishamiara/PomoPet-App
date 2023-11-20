@@ -7,6 +7,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     // ADDED
     private lateinit var sensorManager: SensorManager
+    private lateinit var mediaPlayer: MediaPlayer
     private var accelerometer: Sensor? = null
     private var lastUpdate: Long = 0
     private var lastX = 0f
@@ -134,12 +136,10 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         loadSharedPreferences()
         loadGyroscope()
         updateText()
-
 //        todos = todoDb.getAllTodos()
     }
 
     override fun onStop() {
-
         todos.forEach{todo ->
             if(todo.id == -1 && todo.label.isNotEmpty()){
                 val id = todoDb.addToDo(todo)
@@ -190,7 +190,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         }
     }
 
-
     private fun minsToMs(timeInMins: Int): Long{
         return timeInMins * 60000L
     }
@@ -229,6 +228,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                 val streakTemp = Streak(date = currentDate, cycle = cycleTimer)
                 streakDb.updateCycle(streakTemp)
 
+
                 when (currentTimerType) {
                     TimerType.FOCUS -> {
                         if (cycleCounter >= 4) {
@@ -259,6 +259,8 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                         binding.pomoBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_active)
                     }
                 }
+
+                playNotificationSound()
             }
 
             override fun onTick(millisUntilFinished: Long) {
@@ -384,6 +386,19 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             )
         }
     }
+
+    private fun playNotificationSound() {
+        try {
+            mediaPlayer = MediaPlayer.create(this, R.raw.notification_sound)
+            mediaPlayer.setOnCompletionListener { mp ->
+                mp.release()
+            }
+            mediaPlayer.start()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     private fun addStreakDay() {
         val streakDB = StreakDB(this)
 
