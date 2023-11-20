@@ -326,9 +326,11 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     // ADDED
     private fun resetTimer() {
         stopTimer()
-        timeInMs = initialTimeInMins * 60000L // Reset to the initial time set in settings
+        cycleCounter = 1 // Reset the cycle counter to 1
+        timeInMs = minsToMs(initialTimeInMins) // Set the timer to the initial focus time
+        currentTimerType = TimerType.FOCUS // Set the timer type to focus
         updateText()
-        toggleViewElements(View.VISIBLE) // Show the start button and other necessary views
+        toggleViewElements(View.VISIBLE)
         binding.startBtn.visibility = View.VISIBLE
         binding.timerControlGroupLL.visibility = View.INVISIBLE
     }
