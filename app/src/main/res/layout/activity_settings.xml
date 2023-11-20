@@ -379,6 +379,7 @@
                     android:adjustViewBounds="false"
                     android:backgroundTint="#D3D3D3"
                     android:background="@drawable/app_background_streak"
+                    android:cropToPadding="false"
                     android:maxWidth="65dp"
                     android:minWidth="65dp"
                     android:minHeight="50dp"
@@ -386,7 +387,7 @@
                     android:paddingTop="10dp"
                     android:paddingEnd="30dp"
                     android:paddingBottom="10dp"
-                    android:scaleType="fitCenter"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/bunny_icon" />
 
                 <ImageButton
@@ -406,7 +407,7 @@
                     android:paddingTop="15dp"
                     android:paddingEnd="30dp"
                     android:paddingBottom="15dp"
-                    android:scaleType="fitCenter"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/cat_icon" />
 
                 <ImageButton
@@ -426,7 +427,7 @@
                     android:paddingTop="15dp"
                     android:paddingEnd="30dp"
                     android:paddingBottom="15dp"
-                    android:scaleType="fitCenter"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/bear_icon" />
 
             </LinearLayout>
