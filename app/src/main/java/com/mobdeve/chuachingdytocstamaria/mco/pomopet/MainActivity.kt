@@ -222,10 +222,14 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                             Log.d("LongBreakStart", "--LONG Break Start--")
                             startTimer(minsToMs(longBreakTimeInMins))
                             currentTimerType = TimerType.LONG_BREAK
+                            binding.longBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_active)
+                            binding.pomoBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_inactive)
                         }else{
                             Log.d("ShortBreakStart", "--SHORT Break Start--")
                             startTimer(minsToMs(shortBreakTimeInMins))
                             currentTimerType = TimerType.SHORT_BREAK
+                            binding.shortBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_active)
+                            binding.pomoBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_inactive)
                         }
                     }
                     TimerType.SHORT_BREAK, TimerType.LONG_BREAK -> {
@@ -234,6 +238,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                         Log.d("FocusStart", "--FOCUS Start--")
                         startTimer(minsToMs(initialTimeInMins))
                         currentTimerType = TimerType.FOCUS
+                        binding.longBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_inactive)
+                        binding.shortBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_inactive)
+                        binding.pomoBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_active)
                     }
                 }
             }
