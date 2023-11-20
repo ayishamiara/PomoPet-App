@@ -310,6 +310,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     // ADDED
     private fun pauseTimerSettings() {
         if (isRunning) {
+            Log.d("PauseTimerShake", "---!!! Timer was paused (Shake) !!!---")
             val playIconDrawable = ContextCompat.getDrawable(this, R.drawable.play_icon)
             binding.pauseResumeBtn.text = "Resume"
             binding.pauseResumeBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(
@@ -325,6 +326,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     // ADDED
     private fun resetTimer() {
+        Log.d("ResetTimerShake", "---!!! Timer was reset (Shake) !!!---")
         stopTimer()
         cycleCounter = 1 // Reset the cycle counter to 1
         timeInMs = minsToMs(initialTimeInMins) // Set the timer to the initial focus time
