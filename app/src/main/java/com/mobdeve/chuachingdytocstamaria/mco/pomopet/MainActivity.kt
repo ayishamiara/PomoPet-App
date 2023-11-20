@@ -233,14 +233,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                     TimerType.FOCUS -> {
                         if (cycleCounter >= 4) {
                             cycleCounter = 1
-                            cycleTimer++
                             Log.d("LongBreakStart", "--LONG Break Start--")
                             startTimer(minsToMs(longBreakTimeInMins))
                             currentTimerType = TimerType.LONG_BREAK
                             binding.longBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_active)
                             binding.pomoBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_inactive)
                         }else{
-                            cycleTimer++
                             Log.d("ShortBreakStart", "--SHORT Break Start--")
                             startTimer(minsToMs(shortBreakTimeInMins))
                             currentTimerType = TimerType.SHORT_BREAK
@@ -254,6 +252,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                         Log.d("CycleCounter", "Cycle Counter: $cycleCounter")
                         Log.d("FocusStart", "--FOCUS Start--")
                         startTimer(minsToMs(initialTimeInMins))
+                        cycleTimer++
                         currentTimerType = TimerType.FOCUS
                         binding.longBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_inactive)
                         binding.shortBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_inactive)
