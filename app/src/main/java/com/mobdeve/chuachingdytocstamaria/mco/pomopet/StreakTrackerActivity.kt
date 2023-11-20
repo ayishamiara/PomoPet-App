@@ -11,7 +11,7 @@ import java.util.Calendar
 import java.util.GregorianCalendar
 import java.text.SimpleDateFormat
 
-class StreakTrackerActivity : AppCompatActivity() {
+class StreakTrackerActivity : BaseActivity() {
     private lateinit var binding: ActivityStreakTrackerBinding
     private val PAWS_PER_ROW = 16
 
