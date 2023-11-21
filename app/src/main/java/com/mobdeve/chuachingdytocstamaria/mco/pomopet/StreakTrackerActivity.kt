@@ -96,7 +96,7 @@ class StreakTrackerActivity : BaseActivity() {
 
         //setting the last day in a year
         val lastDay = Calendar.getInstance()
-        lastDay.set(Calendar.DAY_OF_YEAR, 365)
+        lastDay.set(Calendar.DAY_OF_YEAR, lastDay.getActualMaximum(Calendar.DAY_OF_YEAR))
 
         //fill up remaining days
         while (date.before(lastDay)) {
