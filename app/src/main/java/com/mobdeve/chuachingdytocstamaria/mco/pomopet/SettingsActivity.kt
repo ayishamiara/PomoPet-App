@@ -173,8 +173,6 @@ class SettingsActivity : BaseActivity() {
         pomodoroETNumber.setText(pomodoroTime.toString())
         shortBreakETNumber.setText(shortBreakTime.toString())
         longBreakETNumber.setText(longBreakTime.toString())
-
-
     }
 
     override fun onPause() {
@@ -205,7 +203,6 @@ class SettingsActivity : BaseActivity() {
                 (this.longBreakETNumber.text?.toString()?.toInt() == longBreakTime)
     }
 
-    // EDITED
     private fun isCheckBoxStillOriginal(): Boolean{
         //Toast.makeText(this, "shakepause1: " + shakePause + " shakepause2: " + shakePauseCb.isChecked + " shakereset1: " + shakeReset + " shakereset2: " + shakeResetCb.isChecked, Toast.LENGTH_SHORT).show();
         return (shakePause == shakePauseCb.isChecked && shakeReset == shakeResetCb.isChecked)

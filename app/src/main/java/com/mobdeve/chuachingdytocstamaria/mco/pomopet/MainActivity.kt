@@ -45,7 +45,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
     private var longBreakTimeInMins = SettingsActivity.DEFAULT_LONG_BREAK
     var timeInMs = initialTimeInMins * 60000L
 
-    // ADDED
     private lateinit var sensorManager: SensorManager
     private lateinit var mediaPlayer: MediaPlayer
     private var accelerometer: Sensor? = null
@@ -59,6 +58,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
     private lateinit var todos: ArrayList<ToDo>
     private lateinit var todoDb: ToDoDB
     private lateinit var streakDb: StreakDB
+    private var isPaused = false
 
     private var currentTimerType = TimerType.FOCUS
     private var cycleCounter = 1
@@ -98,7 +98,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
             }
         }
 
-        // ADDED
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
@@ -137,7 +136,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
         }
     }
 
-    // EDITED
     override fun onStart() {
         super.onStart()
         loadSharedPreferences()
@@ -163,7 +161,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
         sensorManager.unregisterListener(this)
     }
 
-    //ADDED
     override fun onResume() {
         super.onResume()
         Log.d("MainActivity", "onResume called")
@@ -177,7 +174,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
         }
     }
 
-    // EDITED
     private fun loadSharedPreferences(){
         val sp: SharedPreferences = getSharedPreferences(SettingsActivity.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
 
@@ -200,7 +196,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
 
     }
 
-    //ADDED
     private fun loadGyroscope(){
         if ((isShakePauseChecked || isShakeResetChecked) && sensorManager != null && accelerometer != null) {
             // Only register the sensor listener if either shakePauseCb or shakeResetCb is checked
@@ -302,7 +297,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
         val pauseIconDrawable = ContextCompat.getDrawable(this, R.drawable.pause_icon)
         binding.pauseResumeBtn.text = "Pause"
         binding.pauseResumeBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(pauseIconDrawable, null, null, null)
-
     }
 
     private fun updateText() {
@@ -321,7 +315,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
         return unit.toString().padStart(2, '0')
     }
 
-    // ADDED
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
             val currentTime = System.currentTimeMillis()
@@ -344,7 +337,16 @@ class MainActivity : BaseActivity(), SensorEventListener {
                     if (isShakePauseChecked && isShakeResetChecked) {
                         if (Math.abs(deltaX) > Math.abs(deltaY)) {
                             // Left-Right shake detected
-                            pauseTimerSettings()
+                            //pauseTimerSettings()
+                            if (!isPaused) {
+                                // Pause the timer
+                                pauseTimerSettings()
+                                isPaused = true
+                            } else {
+                                // Resume the timer
+                                resumeTimerSettings()
+                                isPaused = false
+                            }
                         } else {
                             // Up-Down shake detected
                             resetTimer()
@@ -365,7 +367,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
         }
     }
 
-    // ADDED
     private fun pauseTimerSettings() {
         if (isRunning) {
             Log.d("PauseTimerShake", "---!!! Timer was paused (Shake) !!!---")
@@ -382,7 +383,13 @@ class MainActivity : BaseActivity(), SensorEventListener {
         }
     }
 
-    // ADDED
+
+    private fun resumeTimerSettings(){
+        Toast.makeText(this, "RESUMES", Toast.LENGTH_SHORT).show()
+            startTimer(timeInMs)
+    }
+
+
     private fun resetTimer() {
         Log.d("ResetTimerShake", "---!!! Timer was reset (Shake) !!!---")
         stopTimer()
@@ -395,12 +402,9 @@ class MainActivity : BaseActivity(), SensorEventListener {
         binding.timerControlGroupLL.visibility = View.INVISIBLE
     }
 
-    // ADDED
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         // Handle accuracy changes here if needed
     }
-
-    // ADDED
 
 
     private fun playNotificationSound() {
