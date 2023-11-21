@@ -70,6 +70,8 @@ class MainActivity : BaseActivity(), SensorEventListener {
         recreate()
     }
 
+    private var currStreak: Streak? = null
+
 
     enum class TimerType {
         FOCUS,
@@ -84,6 +86,10 @@ class MainActivity : BaseActivity(), SensorEventListener {
 
         todoDb = ToDoDB(applicationContext)
         streakDb = StreakDB(applicationContext)
+
+        val currentDateStr = SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().time)
+        currStreak = streakDb.getStreakForDate(currentDateStr)
+        cycleTimer = if (currStreak?.cycle_num != null) currStreak!!.cycle_num else 0
 
         executorService.execute{
             todos = todoDb.getAllTodos()
@@ -247,11 +253,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
                 toggleViewElements(View.VISIBLE)
                 binding.startBtn.visibility = View.VISIBLE
                 binding.timerControlGroupLL.visibility = View.INVISIBLE
-                addStreakDay()
 
-                val currentDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().time)
-                val streakTemp = Streak(date = currentDate, cycle = cycleTimer)
-                streakDb.updateCycle(streakTemp)
 
 
                 when (currentTimerType) {
@@ -284,6 +286,10 @@ class MainActivity : BaseActivity(), SensorEventListener {
                         binding.pomoBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_active)
                     }
                 }
+
+                val streak = addStreakDay()
+                streak.cycle_num = cycleTimer
+                streakDb.updateCycle(streak)
 
                 playNotificationSound()
             }
@@ -409,7 +415,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
         }
     }
 
-    private fun addStreakDay() {
+    private fun addStreakDay(): Streak {
         val streakDB = StreakDB(this)
 
         // Get the current date in the format "yyyy-MM-dd"
@@ -423,7 +429,9 @@ class MainActivity : BaseActivity(), SensorEventListener {
             val streak = Streak(date = currentDateStr)  // Assuming cycle is 0 for a new streak day
             val id = streakDB.addDate(streak)
             streak.id = id
+            return streak
         }
+        return existingStreak
     }
 
 }
