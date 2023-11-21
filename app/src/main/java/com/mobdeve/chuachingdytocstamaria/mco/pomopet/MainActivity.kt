@@ -67,8 +67,11 @@ class MainActivity : BaseActivity(), SensorEventListener {
     private val executorService = Executors.newSingleThreadExecutor()
     private val settingsLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-        // TODO: add a way to recreate only when the theme changes
-        recreate()
+        val themeOk = result.data?.getIntExtra(SettingsActivity.THEME_KEY, -1)!!
+        if(result.resultCode == RESULT_OK && themeOk == SettingsActivity.THEME_REQUEST_CODE){
+            recreate()
+        }
+
     }
 
     private var currStreak: Streak? = null

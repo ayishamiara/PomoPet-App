@@ -74,6 +74,7 @@ class SettingsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        themeChanged = false
 
         pomodoroETNumber = binding.pomodoroETNumber
         longBreakETNumber = binding.longBreakETNumber
@@ -90,6 +91,11 @@ class SettingsActivity : BaseActivity() {
         bearBtn = binding.bearBtn
 
         binding.settingsBackBtn.setOnClickListener{
+            if(themeChanged){
+                val returnIntent = Intent()
+                returnIntent.putExtra(THEME_KEY, THEME_REQUEST_CODE)
+                setResult(RESULT_OK, returnIntent)
+            }
             finish()
         }
 
@@ -285,8 +291,8 @@ class SettingsActivity : BaseActivity() {
         button.backgroundTintList = ContextCompat.getColorStateList(this, R.color.theme_enabled_button)
 
         // Update save button state
-        themeChanged = ThemeUtil.previousTheme != theme
-        updateSaveButtonState(themeChanged)
+        themeChanged = true
+        updateSaveButtonState(ThemeUtil.previousTheme != theme)
         selectedTheme = theme
     }
 
