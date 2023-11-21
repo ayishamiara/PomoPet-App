@@ -342,12 +342,12 @@ class MainActivity : BaseActivity(), SensorEventListener {
                         if (Math.abs(deltaX) > Math.abs(deltaY)) {
                             // Left-Right shake detected
                             if(!isRunning){
-                                if(System.currentTimeMillis() - lastPauseResumeTime >= 100) {
+                                if(System.currentTimeMillis() - lastPauseResumeTime >= 1000) {
                                     startTimer(timeInMs)
                                     lastPauseResumeTime = System.currentTimeMillis()
                                 }
                             } else{
-                                if(System.currentTimeMillis() - lastPauseResumeTime >= 100) {
+                                if(System.currentTimeMillis() - lastPauseResumeTime >= 1000) {
                                     pauseTimer()
                                     lastPauseResumeTime = System.currentTimeMillis()
                                 }
@@ -361,12 +361,12 @@ class MainActivity : BaseActivity(), SensorEventListener {
                         if (Math.abs(deltaX) > Math.abs(deltaY)) {
                             // Left-Right shake detected
                             if(!isRunning){
-                                if(System.currentTimeMillis() - lastPauseResumeTime >= 100) {
+                                if(System.currentTimeMillis() - lastPauseResumeTime >= 1000) {
                                     startTimer(timeInMs)
                                     lastPauseResumeTime = System.currentTimeMillis()
                                 }
                             } else{
-                                if(System.currentTimeMillis() - lastPauseResumeTime >= 100) {
+                                if(System.currentTimeMillis() - lastPauseResumeTime >= 1000) {
                                     pauseTimer()
                                     lastPauseResumeTime = System.currentTimeMillis()
                                 }
