@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.utils.ThemeUtil
 
 abstract class BaseActivity: AppCompatActivity() {
+
+    // Sets the theme during activity creation based on the loaded theme from SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ThemeUtil.setThemeOnCreate(this, loadTheme())
