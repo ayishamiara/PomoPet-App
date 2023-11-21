@@ -15,12 +15,17 @@
     <!-- COLORS USED FOR CAT THEME -->
     <color name="cat_background_color">#FFDAB9</color>
     <color name="cat_light_gray">#C0C0C0</color>
+    <color name="cat_theme_btn_inactive">#D3C8BE</color>
+    <color name="cat_theme_btn_active">#E0CDBD</color>
     <color name="peach">#FFCDB8</color>
 
     <!-- COLORS USED FOR BEAR THEME -->
     <color name="bear_background_color">#E0CCA3</color>
     <color name="bear_brown">#A0856F</color>
+    <color name="bear_theme_btn_inactive">#B49B7F</color>
+    <color name="bear_theme_btn_active">#C0A889</color>
     <color name="honey_brown">#D2B48C</color>
+
 
     <!-- BUTTON STATES -->
     <color name="enabled_button">#FFD2D2</color>

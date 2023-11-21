@@ -3,6 +3,7 @@ package com.mobdeve.chuachingdytocstamaria.mco.pomopet
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Resources.Theme
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -15,6 +16,7 @@ import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.TypedArrayUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.adapters.TodoAdapter
@@ -27,6 +29,7 @@ import com.mobdeve.chuachingdytocstamaria.mco.pomopet.models.ToDo
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.utils.ThemeUtil
+import com.mobdeve.chuachingdytocstamaria.mco.pomopet.utils.getAppColorRes
 import java.util.concurrent.Executors
 
 class MainActivity : BaseActivity(), SensorEventListener {
@@ -243,44 +246,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
     private fun startTimer(time: Long){
         countdownTimer = object : CountDownTimer(time, 1000){
             override fun onFinish() {
-                stopTimer()
-                toggleViewElements(View.VISIBLE)
-                binding.startBtn.visibility = View.VISIBLE
-                binding.timerControlGroupLL.visibility = View.INVISIBLE
-
-                when (currentTimerType) {
-                    TimerType.FOCUS -> {
-                        if (cycleCounter >= 4) {
-                            cycleCounter = 1
-                            Log.d("LongBreakStart", "--LONG Break Start--")
-                            startTimer(minsToMs(longBreakTimeInMins))
-                            currentTimerType = TimerType.LONG_BREAK
-                            binding.longBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_active)
-                            binding.pomoBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_inactive)
-                        }else{
-                            Log.d("ShortBreakStart", "--SHORT Break Start--")
-                            startTimer(minsToMs(shortBreakTimeInMins))
-                            currentTimerType = TimerType.SHORT_BREAK
-                            binding.shortBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_active)
-                            binding.pomoBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_inactive)
-                        }
-                    }
-                    TimerType.SHORT_BREAK, TimerType.LONG_BREAK -> {
-                        cycleCounter++
-                        Log.d("CycleCounter", "Cycle Counter: $cycleCounter")
-                        Log.d("FocusStart", "--FOCUS Start--")
-                        startTimer(minsToMs(initialTimeInMins))
-                        cycleTimer++
-                        currentTimerType = TimerType.FOCUS
-                        binding.longBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_inactive)
-                        binding.shortBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_inactive)
-                        binding.pomoBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_active)
-                    }
-                }
-                val streak = addStreakDay()
-                streak.cycle_num = cycleTimer
-                streakDb.updateCycle(streak)
-                playNotificationSound()
+                handleFinish()
             }
 
             override fun onTick(millisUntilFinished: Long) {
@@ -296,6 +262,55 @@ class MainActivity : BaseActivity(), SensorEventListener {
         val pauseIconDrawable = ContextCompat.getDrawable(this, R.drawable.pause_icon)
         binding.pauseResumeBtn.text = "Pause"
         binding.pauseResumeBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(pauseIconDrawable, null, null, null)
+    }
+
+    private fun handleFinish(){
+        stopTimer()
+        toggleViewElements(View.VISIBLE)
+        binding.startBtn.visibility = View.VISIBLE
+        binding.timerControlGroupLL.visibility = View.INVISIBLE
+
+
+//                val a = theme.obtainStyledAttributes(ThemeUtil.selectedTheme, intArrayOf(R.attr.activeState))
+//                a.getColor(0, 0)
+        val active = getAppColorRes(R.attr.activeState)
+        val inactive = getAppColorRes(R.attr.inactiveState)
+        when (currentTimerType) {
+            TimerType.FOCUS -> {
+                if (cycleCounter >= 4) {
+                    cycleCounter = 1
+                    Log.d("LongBreakStart", "--LONG Break Start--")
+                    startTimer(minsToMs(longBreakTimeInMins))
+                    currentTimerType = TimerType.LONG_BREAK
+                    binding.longBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, active)
+                    binding.pomoBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, inactive)
+                }else{
+                    Log.d("ShortBreakStart", "--SHORT Break Start--")
+                    startTimer(minsToMs(shortBreakTimeInMins))
+                    currentTimerType = TimerType.SHORT_BREAK
+                    binding.shortBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, active)
+                    binding.pomoBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, inactive)
+                }
+
+            }
+            TimerType.SHORT_BREAK, TimerType.LONG_BREAK -> {
+                cycleCounter++
+                Log.d("CycleCounter", "Cycle Counter: $cycleCounter")
+                Log.d("FocusStart", "--FOCUS Start--")
+                startTimer(minsToMs(initialTimeInMins))
+                cycleTimer++
+                currentTimerType = TimerType.FOCUS
+                binding.longBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, inactive)
+                binding.shortBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, inactive)
+                binding.pomoBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, active)
+            }
+        }
+
+        val streak = addStreakDay()
+        streak.cycle_num = cycleTimer
+        streakDb.updateCycle(streak)
+
+        playNotificationSound()
     }
 
     // updateText method updates the timer text on the UI

@@ -5,6 +5,9 @@
         <item name="buttonTint">@color/bunny_theme_btn_active</item>
         <item name="colorPrimary">@color/pastel_pink</item>
         <item name="srcCompat">@drawable/bunny_timer</item>
+        <item name="activeState">@color/bunny_theme_btn_active</item>
+        <item name="inactiveState">@color/bunny_theme_btn_inactive</item>
+
         <item name="android:windowBackground">@color/bunny_background_color</item>
     </style>
 
@@ -13,6 +16,8 @@
         <item name="buttonTint">@color/cat_light_gray</item>
         <item name="colorPrimary">@color/peach</item>
         <item name="srcCompat">@drawable/cat_timer</item>
+        <item name="activeState">@color/cat_theme_btn_active</item>
+        <item name="inactiveState">@color/cat_theme_btn_inactive</item>
 
     </style>
 
@@ -21,5 +26,8 @@
         <item name="buttonTint">@color/bear_brown</item>
         <item name="colorPrimary">@color/honey_brown</item>
         <item name="srcCompat">@drawable/bear_timer</item>
+        <item name="activeState">@color/bear_theme_btn_active</item>
+        <item name="inactiveState">@color/bear_theme_btn_inactive</item>
+
     </style>
 </resources>
