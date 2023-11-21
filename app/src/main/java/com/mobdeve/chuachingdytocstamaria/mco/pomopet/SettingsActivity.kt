@@ -125,6 +125,7 @@ class SettingsActivity : BaseActivity() {
 
             updateSaveButtonState(false)
 
+
             ThemeUtil.changeTheme(this, selectedTheme)
 
         }

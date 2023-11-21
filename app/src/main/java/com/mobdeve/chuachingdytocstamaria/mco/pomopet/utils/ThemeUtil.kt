@@ -14,10 +14,11 @@ class ThemeUtil {
 
         fun changeTheme(activity: Activity, theme: Int){
             selectedTheme = theme
-            activity.finish()
+            if(selectedTheme != previousTheme){
+                previousTheme = theme
+                activity.recreate()
+            }
 
-            val intent = Intent(activity, activity.javaClass)
-            activity.startActivity(intent)
 
         }
 
