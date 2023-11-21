@@ -16,6 +16,8 @@ import com.mobdeve.chuachingdytocstamaria.mco.pomopet.models.ToDo
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.viewholders.TodoViewHolder
 
 class TodoAdapter(private val data: ArrayList<ToDo>): Adapter<TodoViewHolder>() {
+
+    // Create View Holder and Set Text Watcher for Text Changes
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder{
         val view = ItemTodoBinding.inflate(
             LayoutInflater.from(parent.context),
@@ -77,10 +79,13 @@ class TodoAdapter(private val data: ArrayList<ToDo>): Adapter<TodoViewHolder>() 
 
         return todoViewHolder
     }
+
+    // Bind data to the ViewHolder
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         holder.bindData(data[position])
     }
 
+    // Get the item count in the adapter
     override fun getItemCount(): Int {
         return data.size
     }
