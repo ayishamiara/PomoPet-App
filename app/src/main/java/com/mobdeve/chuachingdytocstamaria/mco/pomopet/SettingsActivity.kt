@@ -200,6 +200,13 @@ class SettingsActivity : BaseActivity() {
             (this.longBreakETNumber.text.toString().isEmpty())) {
             return true
         }
+        else if ((this.pomodoroETNumber.text.toString() == "0") or
+            (this.shortBreakETNumber.text.toString() == "0")or
+            (this.longBreakETNumber.text.toString() == "0")) {
+            Toast.makeText(this, "An input of 0 for time is not allowed", Toast.LENGTH_LONG).show()
+            return true
+        }
+
         return (this.pomodoroETNumber.text?.toString()?.toInt() == pomodoroTime) and
                 (this.shortBreakETNumber.text?.toString()?.toInt() == shortBreakTime) and
                 (this.longBreakETNumber.text?.toString()?.toInt() == longBreakTime)
