@@ -5,6 +5,7 @@
         <item name="buttonTint">@color/bunny_theme_btn_active</item>
         <item name="colorPrimary">@color/pastel_pink</item>
         <item name="srcCompat">@drawable/bunny_timer</item>
+        <item name="android:windowBackground">@color/bunny_background_color</item>
     </style>
 
     <style name="Cat.Theme.Pomopet" parent="Bunny.Theme.Pomopet">

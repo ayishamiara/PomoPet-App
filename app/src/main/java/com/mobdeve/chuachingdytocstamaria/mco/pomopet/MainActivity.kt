@@ -33,15 +33,15 @@ class MainActivity : BaseActivity(), SensorEventListener {
     private lateinit var binding: ActivityMainBinding
     private lateinit var todoListRV: RecyclerView
     private lateinit var countdownTimer: CountDownTimer
-    private var isRunning = false
+    private lateinit var sensorManager: SensorManager
+    private lateinit var mediaPlayer: MediaPlayer
 
+    private var isRunning = false
     private var initialTimeInMins = SettingsActivity.DEFAULT_POMODORO_TIME
     private var shortBreakTimeInMins = SettingsActivity.DEFAULT_SHORT_BREAK
     private var longBreakTimeInMins = SettingsActivity.DEFAULT_LONG_BREAK
     var timeInMs = initialTimeInMins * 60000L
 
-    private lateinit var sensorManager: SensorManager
-    private lateinit var mediaPlayer: MediaPlayer
     private var accelerometer: Sensor? = null
     private var lastUpdate: Long = 0
     private var lastX = 0f
@@ -50,10 +50,11 @@ class MainActivity : BaseActivity(), SensorEventListener {
     private val SHAKE_THRESHOLD_HIGH = 1000
     private var isShakePauseChecked = false
     private var isShakeResetChecked = false
+    private var lastPauseResumeTime: Long = 0
+
     private lateinit var todos: ArrayList<ToDo>
     private lateinit var todoDb: ToDoDB
     private lateinit var streakDb: StreakDB
-    private var lastPauseResumeTime: Long = 0
 
     private var currentTimerType = TimerType.FOCUS
     private var cycleCounter = 1
@@ -66,11 +67,9 @@ class MainActivity : BaseActivity(), SensorEventListener {
         if(result.resultCode == RESULT_OK && themeOk == SettingsActivity.THEME_REQUEST_CODE){
             recreate()
         }
-
     }
 
     private var currStreak: Streak? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -115,21 +114,16 @@ class MainActivity : BaseActivity(), SensorEventListener {
 
         binding.stopBtn.setOnClickListener{
             resetTimer()
-//            toggleViewElements(View.VISIBLE)
-//            binding.startBtn.visibility = View.VISIBLE
-//            binding.timerControlGroupLL.visibility = View.INVISIBLE
         }
 
 
         binding.settingsBtn.setOnClickListener{
             val intent = Intent(binding.root.context, SettingsActivity::class.java)
             settingsLauncher.launch(intent)
-//            startActivity(intent)
         }
 
         binding.streakBtn.setOnClickListener{
             val intent = Intent(binding.root.context, StreakTrackerActivity::class.java)
-
             startActivity(intent)
         }
     }
@@ -140,7 +134,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
         loadGyroscope()
         updateText()
     }
-
 
     override fun onStop() {
         todos.forEach{todo ->
@@ -192,7 +185,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
         isShakeResetChecked = sp.getBoolean(SettingsActivity.RESET_SHAKE_KEY, false)
 
         this.timeInMs = minsToMs(initialTimeInMins)
-
     }
 
     private fun loadGyroscope(){
@@ -206,7 +198,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
         } else {
             // Unregister the sensor listener if neither shakePauseCb nor shakeResetCb is checked
             sensorManager.unregisterListener(this)
-            //Toast.makeText(this, "Sensor service not detected or preferences not set.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -235,7 +226,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
         timeInMs = initialTimeInMins * 60000L
         updateText()
         isRunning = false
-
     }
 
     private fun startTimer(time: Long){
@@ -245,8 +235,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
                 toggleViewElements(View.VISIBLE)
                 binding.startBtn.visibility = View.VISIBLE
                 binding.timerControlGroupLL.visibility = View.INVISIBLE
-
-
 
                 when (currentTimerType) {
                     TimerType.FOCUS -> {
@@ -264,7 +252,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
                             binding.shortBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_active)
                             binding.pomoBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_inactive)
                         }
-
                     }
                     TimerType.SHORT_BREAK, TimerType.LONG_BREAK -> {
                         cycleCounter++
@@ -278,11 +265,9 @@ class MainActivity : BaseActivity(), SensorEventListener {
                         binding.pomoBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, R.color.bunny_theme_btn_active)
                     }
                 }
-
                 val streak = addStreakDay()
                 streak.cycle_num = cycleTimer
                 streakDb.updateCycle(streak)
-
                 playNotificationSound()
             }
 
@@ -305,13 +290,11 @@ class MainActivity : BaseActivity(), SensorEventListener {
         val hours = ((timeInMs / 1000) / 3600)
         val minutes = ((timeInMs / 1000) % 3600) / 60
         val seconds = (timeInMs / 1000) % 60
-
-        val timerText = if(hours > 0 )
+        val timerText = if(hours > 0)
             "${padTime(hours)}:${padTime(minutes)}:${padTime(seconds)}" else "${padTime(minutes)}:${padTime(seconds)}"
 
         binding.timerTV.text = timerText
     }
-
 
     private fun padTime(unit: Long): String{
         return unit.toString().padStart(2, '0')
@@ -350,7 +333,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
                                     lastPauseResumeTime = System.currentTimeMillis()
                                 }
                             }
-
                         } else {
                             // Up-Down shake detected
                             resetTimer()
@@ -381,7 +363,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
         }
     }
 
-
     private fun resetTimer() {
         Log.d("ResetTimerShake", "---!!! Timer was reset (Shake) !!!---")
         stopTimer()
@@ -395,9 +376,8 @@ class MainActivity : BaseActivity(), SensorEventListener {
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        // Handle accuracy changes here if needed
+        // Handles accuracy changes if needed
     }
-
 
     private fun playNotificationSound() {
         try {
