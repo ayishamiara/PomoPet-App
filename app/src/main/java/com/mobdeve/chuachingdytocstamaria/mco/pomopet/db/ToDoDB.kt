@@ -30,6 +30,7 @@ class ToDoDB(context: Context) {
     }
 
 
+    // Creates a new record in the todo table with the provided ToDo label and completion status (isDone). Returns the ID of the inserted row.
     fun addToDo(todo: ToDo): Int{
         val db = dbHelper.writableDatabase
         val contentValues = ContentValues()
@@ -43,6 +44,7 @@ class ToDoDB(context: Context) {
         return _id.toInt()
     }
 
+    // Modifies the label and completion status of a ToDo item identified by its ID in the todo table.
     fun updateTodo(todo: ToDo){
         val db = dbHelper.writableDatabase
 
@@ -55,6 +57,7 @@ class ToDoDB(context: Context) {
         db.close()
     }
 
+    //  Fetches all records from the todo table where isDone is 0 (indicating incomplete) and constructs ToDo objects for each item.
     fun getAllTodos(): ArrayList<ToDo>{
         val todos = ArrayList<ToDo>()
         val db = dbHelper.readableDatabase
@@ -72,9 +75,6 @@ class ToDoDB(context: Context) {
         Log.d("gettodos", "${todos.size}")
 
         return if (todos.size > 0) todos else arrayListOf(ToDo())
-
     }
-
-
 
 }

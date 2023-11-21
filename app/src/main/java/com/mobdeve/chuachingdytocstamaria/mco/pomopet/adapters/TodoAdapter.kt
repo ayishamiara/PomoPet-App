@@ -32,14 +32,15 @@ class TodoAdapter(private val data: ArrayList<ToDo>): Adapter<TodoViewHolder>() 
 
 
         val textWatcher: TextWatcher = object : TextWatcher {
+            // Handles any necessary logic after text changes, if needed
             override fun afterTextChanged(s: Editable?) {
-                // Handle any necessary logic after text changes, if needed
             }
 
+            // Handles any necessary logic before text changes, if needed
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Handle any necessary logic before text changes, if needed
             }
 
+            // If something changes, this method will add a new todo item, if there is a new todo item it will not be added
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val position = todoViewHolder.adapterPosition
                 if (s.isNullOrEmpty()) {

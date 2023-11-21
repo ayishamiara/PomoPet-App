@@ -57,7 +57,6 @@ class StreakTrackerActivity : BaseActivity() {
                 LinearLayout.LayoutParams.WRAP_CONTENT
             )
             img.setImageResource(streak.pawStreak)
-//            img.setImageResource(if (isInStreak) R.drawable.paw_streak else R.drawable.paw_streak_gray)
             imgLayoutParams.weight = 1f
             img.setPadding(0, 0, 5, 0)
             img.layoutParams = imgLayoutParams

@@ -248,21 +248,6 @@ class SettingsActivity : BaseActivity() {
         shakeResetCb.isChecked = sp.getBoolean(RESET_SHAKE_KEY, DEFAULT_RESET)
 
         selectedTheme = sp.getInt(THEME_KEY, THEME_BUNNY)
-
-        // Check if the theme has changed from the previous theme
-//        if (selectedTheme != previousTheme) {
-////            applyTheme(selectedTheme)
-//
-//            // Theme has changed, enable the save button
-//            saveBtn.isEnabled = true
-//            saveBtn.isClickable = true
-//        } else {
-//            // Theme hasn't changed, disable the save button
-//            saveBtn.isEnabled = false
-//            saveBtn.isClickable = false
-//        }
-
-//        applyTheme(selectedTheme)
     }
 
 

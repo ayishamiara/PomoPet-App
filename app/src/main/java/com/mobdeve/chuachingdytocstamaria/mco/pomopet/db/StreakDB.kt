@@ -29,7 +29,7 @@ class StreakDB(context: Context) {
         this.dbHelper = DBHelper(context)
     }
 
-
+    // Inserts a new record with the provided date and returns the ID of the inserted row.
     fun addDate(streak: Streak): Int{
         val db = dbHelper.writableDatabase
         val contentValues = ContentValues()
@@ -42,6 +42,7 @@ class StreakDB(context: Context) {
         return _id.toInt()
     }
 
+    // Modifies the cycle number associated with the provided date in the database.
     fun updateCycle(streak: Streak) {
         val db = dbHelper.writableDatabase
 
@@ -58,24 +59,7 @@ class StreakDB(context: Context) {
         db.close()
     }
 
-    fun getAllDates(): ArrayList<Streak>{
-        val streaks = ArrayList<Streak>()
-        val db = dbHelper.readableDatabase
-        var cursor: Cursor = db.query(TABLE_NAME, null, null, null,null, null, null)
-        while(cursor.moveToNext()){
-            val streak = Streak(
-                cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID)),
-                cursor.getString(cursor.getColumnIndexOrThrow(COL_DATE)),
-                cursor.getInt(cursor.getColumnIndexOrThrow(COL_CYCLE_NUM))
-            )
-            Log.d("getStreaks", "${streak.id}, ${streak.date}, ${streak.cycle_num}")
-            streaks.add(streak)
-        }
-        Log.d("getStreaks", "${streaks.size}")
-
-        return if (streaks.size > 0) streaks else arrayListOf(Streak())
-    }
-
+    // Counts the number of records (dates) stored in the streak table and returns the total count.
     fun getStreakDates(): Int{
         var total = 0
 
@@ -94,6 +78,7 @@ class StreakDB(context: Context) {
         return total
     }
 
+    // Retrieves cycle numbers from all records in the streak table and computes their cumulative sum.
     fun getCycles(): Int{
         var total = 0
 
@@ -112,6 +97,7 @@ class StreakDB(context: Context) {
         return total
     }
 
+    // Queries the streak table to determine if a given date is present in the records.
     fun isDateInDB(date: String): Boolean {
         val db = dbHelper.readableDatabase
         val cursor = db.query(
@@ -128,6 +114,7 @@ class StreakDB(context: Context) {
         return exists
     }
 
+    // Searches for a specific date in the streak table and returns the associated Streak object if found, or null if not present.
     fun getStreakForDate(date: String): Streak? {
         val db = dbHelper.readableDatabase
         val selection = "$COL_DATE = ?"

@@ -11,11 +11,13 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null
         private const val DATABASE_NAME = "pomopet_db.db"
     }
 
+    // Create the database tables
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(ToDoDB.CREATE_TABLE_STATEMENT)
         db?.execSQL(StreakDB.CREATE_TABLE_STATEMENT)
     }
 
+    // Upgrade the database if necessary
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db?.execSQL("DROP TABLE IF EXISTS ${ToDoDB.TABLE_NAME}")
         db?.execSQL("DROP TABLE IF EXISTS ${StreakDB.TABLE_NAME}")

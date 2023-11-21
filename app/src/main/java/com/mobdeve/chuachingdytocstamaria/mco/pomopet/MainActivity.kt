@@ -264,15 +264,14 @@ class MainActivity : BaseActivity(), SensorEventListener {
         binding.pauseResumeBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(pauseIconDrawable, null, null, null)
     }
 
+    // It manages the timer state transitions, updates UI elements, initiates breaks or focus sessions based on cycles,
+    // updates streaks, plays a notification sound, and resets the timer accordingly.
     private fun handleFinish(){
         stopTimer()
         toggleViewElements(View.VISIBLE)
         binding.startBtn.visibility = View.VISIBLE
         binding.timerControlGroupLL.visibility = View.INVISIBLE
 
-
-//                val a = theme.obtainStyledAttributes(ThemeUtil.selectedTheme, intArrayOf(R.attr.activeState))
-//                a.getColor(0, 0)
         val active = getAppColorRes(R.attr.activeState)
         val inactive = getAppColorRes(R.attr.inactiveState)
         when (currentTimerType) {
