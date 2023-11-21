@@ -81,6 +81,7 @@
             android:id="@+id/settingsBox"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:backgroundTint="#020101"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -131,8 +132,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:backgroundTint="#D3D3D3"
                         android:background="@drawable/app_background_streak"
+                        android:backgroundTint="#D3D3D3"
                         android:ems="4"
                         android:inputType="number"
                         android:maxWidth="65dp"
@@ -140,9 +141,9 @@
                         android:minWidth="65dp"
                         android:minHeight="19dp"
                         android:shadowRadius="10"
+                        android:text="25"
                         android:textAlignment="center"
-                        android:textSize="12sp"
-                        android:text="25" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -169,17 +170,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:backgroundTint="#D3D3D3"
                         android:background="@drawable/app_background_streak"
+                        android:backgroundTint="#D3D3D3"
                         android:ems="4"
                         android:inputType="number"
                         android:maxWidth="65dp"
                         android:maxHeight="19dp"
                         android:minWidth="65dp"
                         android:minHeight="19dp"
+                        android:text="5"
                         android:textAlignment="center"
-                        android:textSize="12sp"
-                        android:text="5" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -207,18 +208,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:backgroundTint="#D3D3D3"
                         android:background="@drawable/app_background_streak"
+                        android:backgroundTint="#D3D3D3"
                         android:ems="4"
                         android:inputType="number"
                         android:maxWidth="65dp"
                         android:maxHeight="19dp"
                         android:minWidth="65dp"
                         android:minHeight="19dp"
+                        android:text="15"
                         android:textAlignment="center"
                         android:textAllCaps="false"
-                        android:textSize="12sp"
-                        android:text="15" />
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -254,8 +255,8 @@
                     android:id="@+id/shakingPauseVerticalLL"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginStart="25dp"
+                    android:layout_marginBottom="10dp"
                     android:orientation="vertical"
                     app:layout_constraintBottom_toTopOf="@id/shakingResetVerticalLL"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -276,13 +277,13 @@
                             android:scaleX="0.65"
                             android:scaleY="0.65"
                             app:buttonTint="@color/primary_text_color" />
+
                         <TextView
                             android:id="@+id/pauseCheckBtnText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Enable shaking to pause timer"
-                            android:textColor="@color/primary_text_color"
-                            />
+                            android:textColor="@color/primary_text_color" />
                     </LinearLayout>
 
                     <TextView
@@ -292,40 +293,41 @@
                         android:layout_marginStart="35dp"
                         android:fontFamily="@font/karla"
                         android:text="Shake left and right to pause timer"
-                        android:textStyle="italic"
                         android:textColor="#333333"
-                        android:textSize="12dp" />
+                        android:textSize="12dp"
+                        android:textStyle="italic" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/shakingResetVerticalLL"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
                     android:layout_marginStart="25dp"
+                    android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
+
                     <LinearLayout
                         android:id="@+id/resetCheckBtnLinearLayout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center">
+
                         <CheckBox
                             android:id="@+id/resetCheckBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:scaleX="0.65"
                             android:scaleY="0.65"
-                            app:buttonTint="@color/primary_text_color"
-                            />
+                            app:buttonTint="@color/primary_text_color" />
+
                         <TextView
                             android:id="@+id/resetCheckBtnText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Enable shaking to reset timer"
-                            android:textColor="@color/primary_text_color"
-                            />
+                            android:textColor="@color/primary_text_color" />
                     </LinearLayout>
 
                     <TextView
@@ -334,10 +336,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="35dp"
                         android:fontFamily="@font/karla"
-                        android:textStyle="italic"
                         android:text="Shake up and down to reset timer"
                         android:textColor="#333333"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:textStyle="italic" />
 
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -378,8 +380,8 @@
                     android:layout_weight="1"
                     android:adjustViewBounds="false"
                     android:background="@drawable/app_background_streak"
-                    android:cropToPadding="false"
                     android:backgroundTint="@color/theme_enabled_button"
+                    android:cropToPadding="false"
                     android:maxWidth="65dp"
                     android:minWidth="65dp"
                     android:minHeight="50dp"
@@ -447,11 +449,11 @@
                     android:layout_marginStart="50dp"
                     android:layout_marginEnd="10dp"
                     android:layout_weight="1"
+                    android:background="@drawable/settings_button_selector"
                     android:fontFamily="@font/karla"
                     android:maxWidth="100dp"
                     android:maxHeight="33dp"
                     android:text="Default"
-                    android:background="@drawable/settings_button_selector"
                     android:textAllCaps="false"
                     android:textColor="#333333"
                     android:textSize="16sp"
