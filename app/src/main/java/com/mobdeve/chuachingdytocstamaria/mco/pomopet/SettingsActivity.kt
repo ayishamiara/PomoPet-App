@@ -44,7 +44,6 @@ class SettingsActivity : BaseActivity() {
         const val DEFAULT_RESET = false
     }
 
-
     private lateinit var binding: ActivitySettingsBinding
     private var isSaved = false
 
@@ -68,7 +67,6 @@ class SettingsActivity : BaseActivity() {
 
     private var selectedTheme: Int = THEME_BUNNY
     private var themeChanged: Boolean = false
-//    private var previousTheme: Int = THEME_BUNNY
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,8 +115,6 @@ class SettingsActivity : BaseActivity() {
             }
         }
 
-
-
         saveBtn.setOnClickListener{
             this.isSaved = true
             Toast.makeText(this, "Settings saved", Toast.LENGTH_LONG).show()
@@ -131,9 +127,7 @@ class SettingsActivity : BaseActivity() {
 
             updateSaveButtonState(false)
 
-
             ThemeUtil.changeTheme(this, selectedTheme)
-
         }
 
         defaultBtn.setOnClickListener{
@@ -144,8 +138,8 @@ class SettingsActivity : BaseActivity() {
 
         val textWatcher: TextWatcher = object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-
             }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
@@ -168,7 +162,6 @@ class SettingsActivity : BaseActivity() {
 
         shakePauseCb.setOnClickListener(checkBoxListen())
         shakeResetCb.setOnClickListener(checkBoxListen())
-
     }
 
     override fun onStart() {
@@ -198,22 +191,20 @@ class SettingsActivity : BaseActivity() {
             }
         }
     }
+
     private fun isTextStillOriginal() : Boolean {
         if((this.pomodoroETNumber.text.toString().isEmpty()) or
             (this.shortBreakETNumber.text.toString().isEmpty())or
             (this.longBreakETNumber.text.toString().isEmpty())) {
             return true
         }
-
         return (this.pomodoroETNumber.text?.toString()?.toInt() == pomodoroTime) and
                 (this.shortBreakETNumber.text?.toString()?.toInt() == shortBreakTime) and
                 (this.longBreakETNumber.text?.toString()?.toInt() == longBreakTime)
     }
 
     private fun isCheckBoxStillOriginal(): Boolean{
-        //Toast.makeText(this, "shakepause1: " + shakePause + " shakepause2: " + shakePauseCb.isChecked + " shakereset1: " + shakeReset + " shakereset2: " + shakeResetCb.isChecked, Toast.LENGTH_SHORT).show();
         return (shakePause == shakePauseCb.isChecked && shakeReset == shakeResetCb.isChecked)
-
     }
 
     private fun setDefaults(){
@@ -230,39 +221,26 @@ class SettingsActivity : BaseActivity() {
 
         Log.d("sharedpref", "settings on destroy ${pomodoroTime}")
         editor.putInt(POMODORO_TIME_KEY, pomodoroTime)
-
         editor.putInt(SHORT_BREAK_KEY, shortBreakTime)
-
         editor.putInt(LONG_BREAK_KEY, longBreakTime)
-
         editor.putBoolean(PAUSE_SHAKE_KEY, shakePauseCb.isChecked)
-
         editor.putBoolean(RESET_SHAKE_KEY, shakeResetCb.isChecked)
-
         editor.putInt(THEME_KEY, selectedTheme)
 
-
         editor.apply()
-
     }
 
     private fun loadSharedPreferences(){
         val sp: SharedPreferences = getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
 
 //        previousTheme = selectedTheme
-
         pomodoroTime = sp.getInt(POMODORO_TIME_KEY, DEFAULT_POMODORO_TIME)
-
         shortBreakTime = sp.getInt(SHORT_BREAK_KEY, DEFAULT_SHORT_BREAK)
-
         longBreakTime = sp.getInt(LONG_BREAK_KEY, DEFAULT_LONG_BREAK)
-
         shakePauseCb.isChecked = sp.getBoolean(PAUSE_SHAKE_KEY, DEFAULT_PAUSE)
-
         shakeResetCb.isChecked = sp.getBoolean(RESET_SHAKE_KEY, DEFAULT_RESET)
 
         selectedTheme = sp.getInt(THEME_KEY, THEME_BUNNY)
-
 
         // Check if the theme has changed from the previous theme
 //        if (selectedTheme != previousTheme) {
