@@ -322,17 +322,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
                     if (isShakePauseChecked && isShakeResetChecked) {
                         if (Math.abs(deltaX) > Math.abs(deltaY)) {
                             // Left-Right shake detected
-                            if(!isRunning){
-                                if(System.currentTimeMillis() - lastPauseResumeTime >= 1000) {
-                                    startTimer(timeInMs)
-                                    lastPauseResumeTime = System.currentTimeMillis()
-                                }
-                            } else{
-                                if(System.currentTimeMillis() - lastPauseResumeTime >= 1000) {
-                                    pauseTimer()
-                                    lastPauseResumeTime = System.currentTimeMillis()
-                                }
-                            }
+                            pauseResumeTimer()
                         } else {
                             // Up-Down shake detected
                             resetTimer()
@@ -340,17 +330,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
                     } else if (isShakePauseChecked) {
                         if (Math.abs(deltaX) > Math.abs(deltaY)) {
                             // Left-Right shake detected
-                            if(!isRunning){
-                                if(System.currentTimeMillis() - lastPauseResumeTime >= 1000) {
-                                    startTimer(timeInMs)
-                                    lastPauseResumeTime = System.currentTimeMillis()
-                                }
-                            } else{
-                                if(System.currentTimeMillis() - lastPauseResumeTime >= 1000) {
-                                    pauseTimer()
-                                    lastPauseResumeTime = System.currentTimeMillis()
-                                }
-                            }
+                            pauseResumeTimer()
                         }
                     } else if (isShakeResetChecked) {
                         if (Math.abs(deltaY) > Math.abs(deltaX)) {
@@ -359,6 +339,20 @@ class MainActivity : BaseActivity(), SensorEventListener {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private fun pauseResumeTimer(){
+        if(!isRunning){
+            if(System.currentTimeMillis() - lastPauseResumeTime >= 1000) {
+                startTimer(timeInMs)
+                lastPauseResumeTime = System.currentTimeMillis()
+            }
+        } else{
+            if(System.currentTimeMillis() - lastPauseResumeTime >= 1000) {
+                pauseTimer()
+                lastPauseResumeTime = System.currentTimeMillis()
             }
         }
     }
