@@ -1,6 +1,5 @@
 package com.mobdeve.chuachingdytocstamaria.mco.pomopet
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -9,13 +8,10 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.media.MediaPlayer
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.View
-import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -30,7 +26,6 @@ import com.mobdeve.chuachingdytocstamaria.mco.pomopet.models.TimerType
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.models.ToDo
 import java.text.SimpleDateFormat
 import java.util.Calendar
-import java.util.Locale
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.utils.ThemeUtil
 import java.util.concurrent.Executors
 
@@ -59,7 +54,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
     private lateinit var todoDb: ToDoDB
     private lateinit var streakDb: StreakDB
     private var lastPauseResumeTime: Long = 0
-
 
     private var currentTimerType = TimerType.FOCUS
     private var cycleCounter = 1

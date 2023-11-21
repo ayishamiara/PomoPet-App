@@ -4,9 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Color
-import android.media.Image
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -222,6 +219,7 @@ class SettingsActivity : BaseActivity() {
         longBreakETNumber.setText(DEFAULT_LONG_BREAK.toString())
         shakePauseCb.isChecked = DEFAULT_PAUSE
         shakeResetCb.isChecked = DEFAULT_RESET
+        selectThemeBtn(bunnyBtn, THEME_BUNNY)
     }
 
     private fun saveToSharedPreferences(){

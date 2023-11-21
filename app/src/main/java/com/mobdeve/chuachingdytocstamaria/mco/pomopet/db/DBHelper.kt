@@ -3,7 +3,6 @@ package com.mobdeve.chuachingdytocstamaria.mco.pomopet.db
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.mobdeve.chuachingdytocstamaria.mco.pomopet.models.Streak
 
 class DBHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
