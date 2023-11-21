@@ -14,6 +14,7 @@ class StreakTrackerActivity : BaseActivity() {
     private lateinit var binding: ActivityStreakTrackerBinding
     private val PAWS_PER_ROW = 16
 
+    // onCreate method initializes the activity, sets up UI components, and fetches data from the database
     override fun onCreate(savedInstanceState: Bundle?) {
         val streakDB = StreakDB(this)
         super.onCreate(savedInstanceState)
@@ -32,6 +33,7 @@ class StreakTrackerActivity : BaseActivity() {
         }
     }
 
+    // createStreaks method generates the visual representation of streaks based on fetched data
     private fun createStreaks(data: ArrayList<StreakState>){
         var currRow: LinearLayout? = null
         for ((index, streak) in data.withIndex()){
@@ -63,7 +65,7 @@ class StreakTrackerActivity : BaseActivity() {
         }
     }
 
-    // take the dates from the db then make a year array with the streak states
+    // generateStreak method retrieves data from the database and creates an array representing yearly streak states
     private fun generateStreak(): ArrayList<StreakState>{
         val streakDB = StreakDB(this)
         val streakData = ArrayList<StreakState>()
