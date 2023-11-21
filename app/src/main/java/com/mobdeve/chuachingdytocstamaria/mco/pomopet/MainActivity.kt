@@ -120,10 +120,10 @@ class MainActivity : BaseActivity(), SensorEventListener {
         }
 
         binding.stopBtn.setOnClickListener{
-            stopTimer()
-            toggleViewElements(View.VISIBLE)
-            binding.startBtn.visibility = View.VISIBLE
-            binding.timerControlGroupLL.visibility = View.INVISIBLE
+            resetTimer()
+//            toggleViewElements(View.VISIBLE)
+//            binding.startBtn.visibility = View.VISIBLE
+//            binding.timerControlGroupLL.visibility = View.INVISIBLE
         }
 
 
@@ -168,6 +168,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
     override fun onResume() {
         super.onResume()
         Log.d("MainActivity", "onResume called")
+        resetTimer()
         ThemeUtil.setThemeOnCreate(this, loadTheme())
         accelerometer?.let {
             sensorManager.registerListener(
@@ -234,10 +235,13 @@ class MainActivity : BaseActivity(), SensorEventListener {
     }
 
     private fun stopTimer(){
-        countdownTimer.cancel()
+        if(isRunning){
+            countdownTimer.cancel()
+        }
         timeInMs = initialTimeInMins * 60000L
         updateText()
         isRunning = false
+
     }
 
     private fun startTimer(time: Long){
