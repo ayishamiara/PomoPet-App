@@ -429,7 +429,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
 
         if (existingStreak == null) {
             // If no streak exists for the current date, add a new streak day
-            val streak = Streak(date = currentDateStr)  // Assuming cycle is 0 for a new streak day
+            val streak = Streak(date = currentDateStr)
             val id = streakDB.addDate(streak)
             streak.id = id
             return streak
