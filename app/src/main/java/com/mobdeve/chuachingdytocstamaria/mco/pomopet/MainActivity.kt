@@ -26,6 +26,7 @@ import com.mobdeve.chuachingdytocstamaria.mco.pomopet.databinding.ActivityMainBi
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.db.StreakDB
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.db.ToDoDB
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.models.Streak
+import com.mobdeve.chuachingdytocstamaria.mco.pomopet.models.TimerType
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.models.ToDo
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -72,12 +73,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
 
     private var currStreak: Streak? = null
 
-
-    enum class TimerType {
-        FOCUS,
-        SHORT_BREAK,
-        LONG_BREAK
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
