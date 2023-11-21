@@ -71,6 +71,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
 
     private var currStreak: Streak? = null
 
+    // onCreate method initializes the activity, sets up UI components, and initializes required variables
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -128,6 +129,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
         }
     }
 
+    // onStart method triggers when the activity becomes visible to the user
     override fun onStart() {
         super.onStart()
         loadSharedPreferences()
@@ -135,6 +137,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
         updateText()
     }
 
+    // onStop method is called when the activity is no longer visible to the user
     override fun onStop() {
         todos.forEach{todo ->
             if(todo.id == -1 && todo.label.isNotEmpty()){
@@ -147,11 +150,13 @@ class MainActivity : BaseActivity(), SensorEventListener {
         super.onStop()
     }
 
+    // onPause method is triggered when the system is about to pause the activity
     override fun onPause() {
         super.onPause()
         sensorManager.unregisterListener(this)
     }
 
+    // onResume method is called when the activity will start interacting with the user
     override fun onResume() {
         super.onResume()
         Log.d("MainActivity", "onResume called")
@@ -166,6 +171,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
         }
     }
 
+    // loadSharedPreferences method loads settings from shared preferences
     private fun loadSharedPreferences(){
         val sp: SharedPreferences = getSharedPreferences(SettingsActivity.SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
 
@@ -187,6 +193,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
         this.timeInMs = minsToMs(initialTimeInMins)
     }
 
+    // loadGyroscope method configures and loads gyroscope sensor settings
     private fun loadGyroscope(){
         if ((isShakePauseChecked || isShakeResetChecked) && sensorManager != null && accelerometer != null) {
             // Only register the sensor listener if either shakePauseCb or shakeResetCb is checked
@@ -201,16 +208,19 @@ class MainActivity : BaseActivity(), SensorEventListener {
         }
     }
 
+    // minsToMs method converts minutes to milliseconds
     private fun minsToMs(timeInMins: Int): Long{
         return timeInMins * 60000L
     }
 
+    // toggleViewElements method toggles visibility of specific UI elements
     private fun toggleViewElements(visibility: Int){
         binding.appTitleTV.visibility = visibility
         binding.settingsBtn.visibility = visibility
         binding.streakBtn.visibility = visibility
     }
 
+    // pauseTimer method pauses the countdown timer
     private fun pauseTimer() {
         val playIconDrawable = ContextCompat.getDrawable(this, R.drawable.play_icon)
         binding.pauseResumeBtn.text = "Resume"
@@ -219,6 +229,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
         isRunning = false
     }
 
+    // stopTimer method stops the countdown timer
     private fun stopTimer(){
         if(isRunning){
             countdownTimer.cancel()
@@ -228,6 +239,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
         isRunning = false
     }
 
+    // startTimer method initiates and starts the countdown timer
     private fun startTimer(time: Long){
         countdownTimer = object : CountDownTimer(time, 1000){
             override fun onFinish() {
@@ -286,6 +298,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
         binding.pauseResumeBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(pauseIconDrawable, null, null, null)
     }
 
+    // updateText method updates the timer text on the UI
     private fun updateText() {
         val hours = ((timeInMs / 1000) / 3600)
         val minutes = ((timeInMs / 1000) % 3600) / 60
@@ -296,10 +309,12 @@ class MainActivity : BaseActivity(), SensorEventListener {
         binding.timerTV.text = timerText
     }
 
+    // padTime method adds padding to time units
     private fun padTime(unit: Long): String{
         return unit.toString().padStart(2, '0')
     }
 
+    // onSensorChanged method detects changes in sensor data (accelerometer)
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
             val currentTime = System.currentTimeMillis()
@@ -343,6 +358,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
         }
     }
 
+    // pauseResumeTimer method handles the pause and resume functionality triggered by sensor shake
     private fun pauseResumeTimer(){
         if(!isRunning){
             if(System.currentTimeMillis() - lastPauseResumeTime >= 1000) {
@@ -357,6 +373,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
         }
     }
 
+    // resetTimer method resets the countdown timer
     private fun resetTimer() {
         Log.d("ResetTimerShake", "---!!! Timer was reset (Shake) !!!---")
         stopTimer()
@@ -369,10 +386,11 @@ class MainActivity : BaseActivity(), SensorEventListener {
         binding.timerControlGroupLL.visibility = View.INVISIBLE
     }
 
+    // onAccuracyChanged method handles changes in sensor accuracy, if needed
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        // Handles accuracy changes if needed
     }
 
+    // playNotificationSound method plays a notification sound through a media player
     private fun playNotificationSound() {
         try {
             mediaPlayer = MediaPlayer.create(this, R.raw.notification_sound)
@@ -385,6 +403,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
         }
     }
 
+    // addStreakDay method handles adding a new streak day or updating an existing one
     private fun addStreakDay(): Streak {
         val streakDB = StreakDB(this)
 
