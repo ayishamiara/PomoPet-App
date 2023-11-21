@@ -10,15 +10,6 @@ class Streak {
         this.cycle_num = 0
     }
 
-    constructor(id: Int, date: String){
-        this.id = id
-        this.date = date
-    }
-
-    constructor(date: String, cycle: Int){
-        this.cycle_num = cycle
-        this.date = date
-    }
     constructor(date: String){
         this.date = date
     }
