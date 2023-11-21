@@ -58,7 +58,8 @@ class MainActivity : BaseActivity(), SensorEventListener {
     private lateinit var todos: ArrayList<ToDo>
     private lateinit var todoDb: ToDoDB
     private lateinit var streakDb: StreakDB
-    private var isPaused = false
+    private var lastPauseResumeTime: Long = 0
+
 
     private var currentTimerType = TimerType.FOCUS
     private var cycleCounter = 1
@@ -340,11 +341,16 @@ class MainActivity : BaseActivity(), SensorEventListener {
                     if (isShakePauseChecked && isShakeResetChecked) {
                         if (Math.abs(deltaX) > Math.abs(deltaY)) {
                             // Left-Right shake detected
-                            //pauseTimerSettings()
                             if(!isRunning){
-                                startTimer(timeInMs)
+                                if(System.currentTimeMillis() - lastPauseResumeTime >= 100) {
+                                    startTimer(timeInMs)
+                                    lastPauseResumeTime = System.currentTimeMillis()
+                                }
                             } else{
-                                pauseTimer()
+                                if(System.currentTimeMillis() - lastPauseResumeTime >= 100) {
+                                    pauseTimer()
+                                    lastPauseResumeTime = System.currentTimeMillis()
+                                }
                             }
 
                         } else {
@@ -355,9 +361,15 @@ class MainActivity : BaseActivity(), SensorEventListener {
                         if (Math.abs(deltaX) > Math.abs(deltaY)) {
                             // Left-Right shake detected
                             if(!isRunning){
-                                startTimer(timeInMs)
+                                if(System.currentTimeMillis() - lastPauseResumeTime >= 100) {
+                                    startTimer(timeInMs)
+                                    lastPauseResumeTime = System.currentTimeMillis()
+                                }
                             } else{
-                                pauseTimer()
+                                if(System.currentTimeMillis() - lastPauseResumeTime >= 100) {
+                                    pauseTimer()
+                                    lastPauseResumeTime = System.currentTimeMillis()
+                                }
                             }
                         }
                     } else if (isShakeResetChecked) {
