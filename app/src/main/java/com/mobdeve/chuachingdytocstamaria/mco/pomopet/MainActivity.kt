@@ -310,12 +310,17 @@ class MainActivity : BaseActivity(), SensorEventListener {
 
     }
 
-    private fun updateText(){
-        val minute = (timeInMs / 1000) / 60
+    private fun updateText() {
+        val hours = ((timeInMs / 1000) / 3600)
+        val minutes = ((timeInMs / 1000) % 3600) / 60
         val seconds = (timeInMs / 1000) % 60
 
-        binding.timerTV.text = "${padTime(minute)}:${padTime(seconds)}"
+        val timerText = if(hours > 0 )
+            "${padTime(hours)}:${padTime(minutes)}:${padTime(seconds)}" else "${padTime(minutes)}:${padTime(seconds)}"
+
+        binding.timerTV.text = timerText
     }
+
 
     private fun padTime(unit: Long): String{
         return unit.toString().padStart(2, '0')
