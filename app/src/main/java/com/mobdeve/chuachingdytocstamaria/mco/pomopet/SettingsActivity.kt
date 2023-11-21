@@ -65,6 +65,7 @@ class SettingsActivity : BaseActivity() {
     private var selectedTheme: Int = THEME_BUNNY
     private var themeChanged: Boolean = false
 
+    // onCreate method initializes the activity, sets up UI components, and initializes variables
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySettingsBinding.inflate(layoutInflater)
@@ -161,6 +162,7 @@ class SettingsActivity : BaseActivity() {
         shakeResetCb.setOnClickListener(checkBoxListen())
     }
 
+    // onStart method triggers when the activity becomes visible to the user
     override fun onStart() {
         super.onStart()
         loadSharedPreferences()
@@ -172,6 +174,7 @@ class SettingsActivity : BaseActivity() {
         longBreakETNumber.setText(longBreakTime.toString())
     }
 
+    // onPause method is triggered when the system is about to pause the activity
     override fun onPause() {
         super.onPause()
         if(isSaved){
@@ -179,6 +182,7 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
+    // checkBoxListen method handles clicks on checkbox views
     private fun checkBoxListen(): View.OnClickListener{
         return View.OnClickListener {
             if (isCheckBoxStillOriginal()){
@@ -189,6 +193,7 @@ class SettingsActivity : BaseActivity() {
         }
     }
 
+    // isTextStillOriginal method checks if text fields retain their original values
     private fun isTextStillOriginal() : Boolean {
         if((this.pomodoroETNumber.text.toString().isEmpty()) or
             (this.shortBreakETNumber.text.toString().isEmpty())or
@@ -200,10 +205,12 @@ class SettingsActivity : BaseActivity() {
                 (this.longBreakETNumber.text?.toString()?.toInt() == longBreakTime)
     }
 
+    // isCheckBoxStillOriginal method checks if checkboxes retain their original values
     private fun isCheckBoxStillOriginal(): Boolean{
         return (shakePause == shakePauseCb.isChecked && shakeReset == shakeResetCb.isChecked)
     }
 
+    // setDefaults method sets default values to UI elements
     private fun setDefaults(){
         pomodoroETNumber.setText(DEFAULT_POMODORO_TIME.toString())
         shortBreakETNumber.setText(DEFAULT_SHORT_BREAK.toString())
@@ -213,6 +220,7 @@ class SettingsActivity : BaseActivity() {
         selectThemeBtn(bunnyBtn, THEME_BUNNY)
     }
 
+    // saveToSharedPreferences method saves settings to shared preferences
     private fun saveToSharedPreferences(){
         val sp:SharedPreferences = getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = sp.edit()
@@ -228,6 +236,7 @@ class SettingsActivity : BaseActivity() {
         editor.apply()
     }
 
+    // loadSharedPreferences method loads settings from shared preferences
     private fun loadSharedPreferences(){
         val sp: SharedPreferences = getSharedPreferences(SHARED_PREFERENCES_KEY, Context.MODE_PRIVATE)
 
@@ -256,6 +265,8 @@ class SettingsActivity : BaseActivity() {
 //        applyTheme(selectedTheme)
     }
 
+
+    // selectThemeBtn method handles the selection of theme buttons
     @SuppressLint("ResourceAsColor")
     fun selectThemeBtn(button: ImageButton, theme: Int) {
         // Reset color of previously selected button
@@ -272,11 +283,13 @@ class SettingsActivity : BaseActivity() {
         selectedTheme = theme
     }
 
+    // updateSaveButtonState method updates the state of the save button
     fun updateSaveButtonState(enable: Boolean) {
         saveBtn.isEnabled = enable
         saveBtn.isClickable = enable
     }
 
+    // initThemeButtons method initializes and selects the appropriate theme button
     private fun initThemeButtons(){
         var btn: ImageButton = bunnyBtn;
         when(selectedTheme){
