@@ -341,15 +341,12 @@ class MainActivity : BaseActivity(), SensorEventListener {
                         if (Math.abs(deltaX) > Math.abs(deltaY)) {
                             // Left-Right shake detected
                             //pauseTimerSettings()
-                            if (!isPaused) {
-                                // Pause the timer
-                                pauseTimerSettings()
-                                isPaused = true
-                            } else {
-                                // Resume the timer
-                                resumeTimerSettings()
-                                isPaused = false
+                            if(!isRunning){
+                                startTimer(timeInMs)
+                            } else{
+                                pauseTimer()
                             }
+
                         } else {
                             // Up-Down shake detected
                             resetTimer()
@@ -357,7 +354,11 @@ class MainActivity : BaseActivity(), SensorEventListener {
                     } else if (isShakePauseChecked) {
                         if (Math.abs(deltaX) > Math.abs(deltaY)) {
                             // Left-Right shake detected
-                            pauseTimerSettings()
+                            if(!isRunning){
+                                startTimer(timeInMs)
+                            } else{
+                                pauseTimer()
+                            }
                         }
                     } else if (isShakeResetChecked) {
                         if (Math.abs(deltaY) > Math.abs(deltaX)) {
@@ -368,28 +369,6 @@ class MainActivity : BaseActivity(), SensorEventListener {
                 }
             }
         }
-    }
-
-    private fun pauseTimerSettings() {
-        if (isRunning) {
-            Log.d("PauseTimerShake", "---!!! Timer was paused (Shake) !!!---")
-            val playIconDrawable = ContextCompat.getDrawable(this, R.drawable.play_icon)
-            binding.pauseResumeBtn.text = "Resume"
-            binding.pauseResumeBtn.setCompoundDrawablesRelativeWithIntrinsicBounds(
-                playIconDrawable,
-                null,
-                null,
-                null
-            )
-            countdownTimer.cancel()
-            isRunning = false
-        }
-    }
-
-
-    private fun resumeTimerSettings(){
-        Toast.makeText(this, "RESUMES", Toast.LENGTH_SHORT).show()
-            startTimer(timeInMs)
     }
 
 
