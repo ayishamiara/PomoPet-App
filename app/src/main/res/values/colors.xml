@@ -32,8 +32,8 @@
     <color name="disabled_button">#E9E9E9</color>
 
     <!-- THEME BUTTON STATES -->
-    <color name="theme_enabled_button">#FFBFBFBF</color>
-    <color name="theme_disabled_button">#D3D3D3</color>
+    <color name="theme_enabled_button">#D3D3D3</color>
+    <color name="theme_disabled_button">#E4E4E4</color>
 
 
 </resources>
