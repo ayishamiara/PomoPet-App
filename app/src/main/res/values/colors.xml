@@ -26,7 +26,6 @@
     <color name="bear_theme_btn_active">#C0A889</color>
     <color name="honey_brown">#D2B48C</color>
 
-
     <!-- BUTTON STATES -->
     <color name="enabled_button">#FFD2D2</color>
     <color name="disabled_button">#E9E9E9</color>
