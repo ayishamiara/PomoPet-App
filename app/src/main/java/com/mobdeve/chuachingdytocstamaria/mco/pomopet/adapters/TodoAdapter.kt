@@ -41,10 +41,18 @@ class TodoAdapter(private val data: ArrayList<ToDo>): Adapter<TodoViewHolder>() 
             }
 
             // If something changes, this method will add a new todo item, if there is a new todo item it will not be added
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 val position = todoViewHolder.adapterPosition
-                if (s.isNullOrEmpty()) {
-                    // If the text is empty, reset the "changed" flag
+
+                // If the text is empty and it is not the last item, remove the corresponding item
+                if (s.isNullOrEmpty() && position < data.size - 1) {
+                    parent.post {
+                        data[position].isDone = true
+                        todoDb.updateTodo(data[position])
+                        data.remove(data[position])
+                        notifyItemRemoved(position)
+                    }
+                    // Reset the "changed" flag
                     changed = false
                 } else if (!changed) {
                     if (position < data.size) {
@@ -52,7 +60,6 @@ class TodoAdapter(private val data: ArrayList<ToDo>): Adapter<TodoViewHolder>() 
                             data[position].label = todoItemText.text.toString()
                         }
                     }
-
                     // Add a new ToDo object if needed
                     if (position == data.size - 1 && s.isNotEmpty()) {
                         parent.post {
@@ -60,9 +67,11 @@ class TodoAdapter(private val data: ArrayList<ToDo>): Adapter<TodoViewHolder>() 
                             notifyItemInserted(position + 1)
                         }
                     }
-
+                    // Set the "changed" flag to true
+//                    changed = true
                 }
             }
+
         }
 
         todoItemText.addTextChangedListener(textWatcher)
@@ -73,7 +82,7 @@ class TodoAdapter(private val data: ArrayList<ToDo>): Adapter<TodoViewHolder>() 
                     todoDb.updateTodo(data[position])
                     data.remove(data[position])
                     notifyItemRemoved(position)
-                    todoViewHolder.clearData()
+//                    todoViewHolder.clearData()
 
             }
         }

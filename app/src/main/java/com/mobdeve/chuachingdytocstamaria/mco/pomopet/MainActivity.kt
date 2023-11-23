@@ -90,6 +90,8 @@ class MainActivity : BaseActivity(), SensorEventListener {
 
         executorService.execute{
             todos = todoDb.getAllTodos()
+            Log.d("todos", "Retrieved ${todos.size} items from the database.")
+
             runOnUiThread{
                 Log.d("todos", "${todos.size}")
                 this.todoListRV = binding.todoListRV
