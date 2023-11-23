@@ -14,6 +14,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.databinding.ActivitySettingsBinding
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.utils.ThemeUtil
@@ -95,6 +96,17 @@ class SettingsActivity : BaseActivity() {
             finish()
         }
 
+        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                if(themeChanged){
+                    val returnIntent = Intent()
+                    returnIntent.putExtra(THEME_KEY, THEME_REQUEST_CODE)
+                    setResult(RESULT_OK, returnIntent)
+                }
+                finish()
+            }
+        })
+
         bunnyBtn.setOnClickListener {
             if (selectedTheme != THEME_BUNNY) {
                 selectThemeBtn(bunnyBtn, THEME_BUNNY)
@@ -125,7 +137,11 @@ class SettingsActivity : BaseActivity() {
 
             updateSaveButtonState(false)
 
+
+
             ThemeUtil.changeTheme(this, selectedTheme)
+
+
         }
 
         defaultBtn.setOnClickListener{
@@ -161,6 +177,7 @@ class SettingsActivity : BaseActivity() {
         shakePauseCb.setOnClickListener(checkBoxListen())
         shakeResetCb.setOnClickListener(checkBoxListen())
     }
+
 
     // onStart method triggers when the activity becomes visible to the user
     override fun onStart() {
@@ -283,7 +300,7 @@ class SettingsActivity : BaseActivity() {
 
     // initThemeButtons method initializes and selects the appropriate theme button
     private fun initThemeButtons(){
-        var btn: ImageButton = bunnyBtn;
+        var btn: ImageButton = bunnyBtn
         when(selectedTheme){
             THEME_BUNNY -> btn = bunnyBtn
             THEME_CAT -> btn = catBtn

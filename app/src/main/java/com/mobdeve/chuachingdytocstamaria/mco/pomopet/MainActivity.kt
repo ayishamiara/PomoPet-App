@@ -3,7 +3,6 @@ package com.mobdeve.chuachingdytocstamaria.mco.pomopet
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.Resources.Theme
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -16,7 +15,6 @@ import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.TypedArrayUtils
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mobdeve.chuachingdytocstamaria.mco.pomopet.adapters.TodoAdapter
@@ -66,9 +64,12 @@ class MainActivity : BaseActivity(), SensorEventListener {
     private val executorService = Executors.newSingleThreadExecutor()
     private val settingsLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-        val themeOk = result.data?.getIntExtra(SettingsActivity.THEME_KEY, -1)!!
-        if(result.resultCode == RESULT_OK && themeOk == SettingsActivity.THEME_REQUEST_CODE){
-            recreate()
+        if(result.resultCode == RESULT_OK){
+            val themeOk = result.data?.getIntExtra(SettingsActivity.THEME_KEY, -1)!!
+            if(themeOk == SettingsActivity.THEME_REQUEST_CODE){
+                recreate()
+
+            }
         }
     }
 
