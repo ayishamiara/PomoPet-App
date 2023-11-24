@@ -288,7 +288,7 @@ class MainActivity : BaseActivity(), SensorEventListener {
         when (currentTimerType) {
             TimerType.FOCUS -> {
                 if (cycleCounter >= 4) {
-                    cycleCounter = 1
+                    cycleCounter = 0
                     Log.d("LongBreakStart", "--LONG Break Start--")
                     startTimer(minsToMs(longBreakTimeInMins))
                     currentTimerType = TimerType.LONG_BREAK
