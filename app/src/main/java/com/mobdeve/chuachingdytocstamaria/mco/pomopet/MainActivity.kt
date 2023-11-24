@@ -237,12 +237,20 @@ class MainActivity : BaseActivity(), SensorEventListener {
 
     // stopTimer method stops the countdown timer
     private fun stopTimer(){
+        val active = getAppColorRes(R.attr.activeState)
+        val inactive = getAppColorRes(R.attr.inactiveState)
+
         if(isRunning){
             countdownTimer.cancel()
         }
+
         timeInMs = initialTimeInMins * 60000L
         updateText()
         isRunning = false
+
+        binding.longBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, inactive)
+        binding.shortBreakBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, inactive)
+        binding.pomoBtn.backgroundTintList = ContextCompat.getColorStateList(this@MainActivity, active)
     }
 
     // startTimer method initiates and starts the countdown timer
